@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Book Recommender System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        BookWise
+    </div>
+
+    <div class="nav-text">
+        Collaborative Book Recommender System
+    </div>
+
+</nav>
+
+
+<!-- =========================
+     HERO SECTION
+========================= -->
+
+<section class="hero">
+
+    <div class="badge">
+        BOOK RECOMMENDER SYSTEM
+    </div>
+
+
+    <h1>
+        Discover your
+        <span>next great read.</span>
+    </h1>
+
+
+    <p class="hero-description">
+
+        Enter the name of a book you like and
+        discover five similar books recommended
+        using my collaborative filtering model.
+
+    </p>
+
+
+    <!-- SEARCH FORM -->
+
+    <form method="POST"
+          action="/"
+          class="search-form">
+
+
+        <div class="search-box">
+
+
+            <span class="search-icon">
+                🔍
+            </span>
+
+
+            <input type="text"
+                   name="book_name"
+                   placeholder="Enter book name, e.g. 1984"
+                   value="{{ selected_book }}"
+                   autocomplete="off"
+                   required
+                   autofocus>
+
+
+            <button type="submit">
+
+                Recommend
+
+            </button>
+
+
+        </div>
+
+
+    </form>
+
+
+    <!-- ERROR MESSAGE -->
+
+    {% if error %}
+
+    <div class="error-message">
+
+        {{ error }}
+
+    </div>
+
+    {% endif %}
+
+
+</section>
+
+
+
+<!-- =========================
+     RECOMMENDATIONS
+========================= -->
+
+{% if recommendations %}
+
+
+<section class="recommendations">
+
+
+    <div class="recommendation-header">
+
+
+        <div>
+
+            <p class="small-heading">
+                YOU MIGHT LIKE:
+            </p>
+
+
+            <h2>
+
+                Because you searched for
+                "{{ selected_book }}"
+
+            </h2>
+
+        </div>
+
+
+        <div class="result-count">
+
+            {{ recommendations|length }} recommendations
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- BOOK GRID -->
+
+    <div class="book-grid">
+
+
+        {% for book in recommendations %}
+
+
+        <div class="book-card">
+
+
+            <!-- BOOK COVER -->
+
+            <a href="{{ book.amazon_url }}"
+               target="_blank"
+               class="image-link">
+
+
+                <div class="image-container">
+
+
+                    <img src="{{ book.image }}"
+                         alt="{{ book.title }}"
+                         class="book-cover"
+
+                         onerror="
+                         this.onerror=null;
+                         this.src='https://placehold.co/300x450?text=No+Cover';
+                         ">
+
+
+                    <div class="image-overlay">
+
+                        View on Amazon
+
+                    </div>
+
+
+                </div>
+
+
+            </a>
+
+
+
+            <!-- BOOK INFORMATION -->
+
+            <div class="book-info">
+
+
+                <h3>
+
+                    {{ book.title }}
+
+                </h3>
+
+
+                <p class="author">
+
+                    by {{ book.author }}
+
+                </p>
+
+
+                <p class="isbn">
+
+                    ISBN: {{ book.isbn }}
+
+                </p>
+
+
+
+                <a href="{{ book.amazon_url }}"
+                   target="_blank"
+                   class="amazon-button">
+
+
+                    <span>
+                        View on Amazon
+                    </span>
+
+
+                    <span>
+                        ↗
+                    </span>
+
+
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+
+        {% endfor %}
+
+
+    </div>
+
+
+</section>
+
+
+{% else %}
+
+
+<!-- =========================
+     INITIAL EMPTY STATE
+========================= -->
+
+<section class="empty-state">
+
+
+    <div class="empty-icon">
+
+        📖
+
+    </div>
+
+
+    <h2>
+
+        Your next book is waiting.
+
+    </h2>
+
+
+    <p>
+
+        Enter a book name above and your
+        recommendations will appear here.
+
+    </p>
+
+
+</section>
+
+
+{% endif %}
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+
+    <h3>
+        BookWise
+    </h3>
+
+
+    <p>
+        Book Recommender System
+    </p>
+
+
+    <span>
+        A machine-learning initiative by Om Satyawan Pathak
+    </span>
+
+
+</footer>
+
+
+</body>
+
+</html>
