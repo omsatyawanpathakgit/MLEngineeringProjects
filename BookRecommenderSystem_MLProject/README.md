@@ -1,11 +1,11 @@
-# 📚 Book Recommender System
+#  Book Recommender System
 
 An end-to-end book recommendation project that combines a **popularity-based recommender** with an **item-based collaborative filtering model**.  
 Originally developed in Python and later converted into a **Flask web application**, this system allows users to browse popular books and receive five similar-book recommendations through a website.
 
 ---
 
-## 🚀 Project Overview
+##  Project Overview
 
 Online book catalogues can contain hundreds of thousands of titles, making it difficult for readers to decide what to read next.  
 This project reduces that search effort by learning patterns from historical user ratings.
@@ -18,7 +18,7 @@ Similarity is determined by **collaborative filtering** (user ratings), not by b
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
 - Loads and processes book, user, and rating data.
 - Cleans missing values and standardizes user-location text.
@@ -32,7 +32,7 @@ Similarity is determined by **collaborative filtering** (user ratings), not by b
 
 ---
 
-## 🧠 Recommendation Approach
+##  Recommendation Approach
 
 ### 1. Popularity-Based Recommendation
 - Groups ratings by book title.
