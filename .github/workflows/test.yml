@@ -48,6 +48,55 @@ jobs:
             --ExecutePreprocessor.kernel_name=conda-base-py \
             --ExecutePreprocessor.timeout=600
 
+      - name: Show Recommendation Results
+        working-directory: BookRecommenderSystem_MLProject
+        run: |
+          python - <<'PY'
+          import nbformat
+
+          notebook = nbformat.read(
+              "final_brs_executed.ipynb",
+              as_version=4
+          )
+
+          print("\n========================================")
+          print("BOOK RECOMMENDER SYSTEM RESULTS")
+          print("========================================\n")
+
+          for cell in notebook.cells:
+
+              if cell.cell_type != "code":
+                  continue
+
+              # Find the cells that generate recommendations
+              if (
+                  'recommend_books("1984")' in cell.source
+                  or 'model("1984")' in cell.source
+              ):
+
+                  print("Input Book: 1984")
+                  print("\nRecommended Books:\n")
+
+                  for output in cell.get("outputs", []):
+
+                      if output.output_type == "stream":
+                          print(output.text)
+
+                      elif output.output_type in [
+                          "execute_result",
+                          "display_data"
+                      ]:
+                          text = output.get(
+                              "data",
+                              {}
+                          ).get("text/plain")
+
+                          if text:
+                              print(text)
+
+                  print("\n========================================")
+
+
       - name: Display Notebook Execution Result
         if: success()
         run: |
