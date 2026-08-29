@@ -27,6 +27,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install jupyter nbconvert ipykernel numpy pandas scikit-learn flask
 
+      - name: Register Jupyter Kernel
+        run: |
+          python -m ipykernel install \
+            --user \
+            --name conda-base-py \
+            --display-name "conda-base-py"
+
+      - name: Show Available Jupyter Kernels
+        run: |
+          jupyter kernelspec list
+
       - name: Execute final_brs.ipynb
         working-directory: BookRecommenderSystem_MLProject
         run: |
@@ -34,6 +45,7 @@ jobs:
             --to notebook \
             --execute final_brs.ipynb \
             --output final_brs_executed.ipynb \
+            --ExecutePreprocessor.kernel_name=conda-base-py \
             --ExecutePreprocessor.timeout=600
 
       - name: Display Notebook Execution Result
