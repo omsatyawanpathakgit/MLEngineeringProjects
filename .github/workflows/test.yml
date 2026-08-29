@@ -1,0 +1,51 @@
+name: Book Recommender - Notebook Execution
+
+on:
+  push:
+    branches: [ main, master, develop ]
+
+  pull_request:
+    branches: [ main, master, develop ]
+
+  workflow_dispatch:
+
+jobs:
+  run-notebook:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install jupyter nbconvert ipykernel numpy pandas scikit-learn flask
+
+      - name: Execute final_brs.ipynb
+        working-directory: BookRecommenderSystem_MLProject
+        run: |
+          jupyter nbconvert \
+            --to notebook \
+            --execute final_brs.ipynb \
+            --output final_brs_executed.ipynb \
+            --ExecutePreprocessor.timeout=600
+
+      - name: Display Notebook Execution Result
+        if: success()
+        run: |
+          echo "Notebook executed successfully"
+          echo "Executed notebook: BookRecommenderSystem_MLProject/final_brs_executed.ipynb"
+
+      - name: Upload Executed Notebook
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: final-bRS-executed-notebook
+          path: BookRecommenderSystem_MLProject/final_brs_executed.ipynb
+          retention-days: 30
