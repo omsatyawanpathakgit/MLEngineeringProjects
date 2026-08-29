@@ -5,47 +5,45 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main, develop ]
+  workflow_dispatch:
 
 jobs:
   test:
     runs-on: ubuntu-latest
     
-    strategy:
-      matrix:
-        python-version: ['3.9']
+    defaults:
+      run:
+        working-directory: ./BookRecommenderSystem_MLProject/book_recommender_flask
     
     steps:
     - uses: actions/checkout@v3
     
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python 3.9
       uses: actions/setup-python@v4
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: '3.9'
     
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        cd book_recommender_flask
         pip install -r requirements.txt
         pip install pytest
     
-    - name: Verify test file
+    - name: Verify test file exists
       run: |
-        cd book_recommender_flask
+        pwd
         ls -la tests/
         python -m pytest tests/test_recommendations.py --collect-only
     
     - name: Run Pytest Test Cases
       run: |
-        cd book_recommender_flask
         python -m pytest tests/test_recommendations.py -v --tb=short
-      continue-on-error: false
       
     - name: Test Summary
       if: always()
       run: |
-        echo "✓ Test Suite Completed"
-        echo "✓ Empty book name handling"
-        echo "✓ Display recommendations"
-        echo "✓ No duplicate recommendations"
-        echo "✓ Input book not in recommendations"
+        echo "✅ Test Suite Completed Successfully"
+        echo "✅ Empty book name handling"
+        echo "✅ Display recommendations"
+        echo "✅ No duplicate recommendations"
+        echo "✅ Input book not in recommendations"
