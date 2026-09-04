@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customer Churn Prediction</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            background:
+                linear-gradient(
+                    135deg,
+                    #0f172a,
+                    #1e3a8a,
+                    #0f766e
+                );
+
+            padding: 40px 20px;
+            color: #1e293b;
+        }
+
+
+        .page-container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+
+        /* Header */
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 17px;
+            color: #dbeafe;
+            line-height: 1.6;
+        }
+
+
+        /* Main card */
+
+        .prediction-card {
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 22px;
+            padding: 35px;
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.25);
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+        .prediction-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 28px 65px rgba(0, 0, 0, 0.30);
+        }
+
+
+        /* Section title */
+
+        .form-heading {
+            margin-bottom: 25px;
+        }
+
+        .form-heading h2 {
+            color: #0f172a;
+            font-size: 26px;
+            margin-bottom: 8px;
+        }
+
+        .form-heading p {
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+
+        /* Form grid */
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 22px;
+        }
+
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #334155;
+            font-size: 14px;
+        }
+
+
+        input,
+        select {
+            width: 100%;
+            padding: 13px 14px;
+
+            border:
+                1.5px solid #cbd5e1;
+
+            border-radius: 10px;
+
+            background-color: #f8fafc;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition:
+                border 0.25s ease,
+                box-shadow 0.25s ease,
+                background 0.25s ease,
+                transform 0.2s ease;
+        }
+
+
+        input:hover,
+        select:hover {
+            border-color: #3b82f6;
+            background-color: white;
+        }
+
+
+        input:focus,
+        select:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 4px rgba(37, 99, 235, 0.12);
+
+            background-color: white;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* Divider */
+
+        .divider {
+            border: none;
+            height: 1px;
+            background: #e2e8f0;
+            margin: 30px 0;
+        }
+
+
+        /* Submit button */
+
+        .button-container {
+            text-align: center;
+        }
+
+
+        .predict-button {
+            width: 100%;
+
+            border: none;
+
+            border-radius: 12px;
+
+            padding: 15px 25px;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            color: white;
+
+            cursor: pointer;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #2563eb,
+                    #0891b2
+                );
+
+            box-shadow:
+                0 8px 20px rgba(37, 99, 235, 0.25);
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                filter 0.25s ease;
+        }
+
+
+        .predict-button:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 13px 28px rgba(37, 99, 235, 0.35);
+
+            filter: brightness(1.08);
+        }
+
+
+        .predict-button:active {
+            transform: translateY(0px);
+        }
+
+
+        /* Prediction result */
+
+        .result {
+            margin-top: 30px;
+
+            padding: 24px;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eff6ff,
+                    #ecfeff
+                );
+
+            border:
+                1px solid #bfdbfe;
+
+            text-align: center;
+
+            box-shadow:
+                0 8px 20px rgba(15, 23, 42, 0.08);
+        }
+
+
+        .result h2 {
+            color: #334155;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+
+        .result h3 {
+            color: #0f766e;
+            font-size: 24px;
+        }
+
+
+        /* Information section */
+
+        .info-section {
+            margin-top: 25px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+        }
+
+
+        .info-card {
+            padding: 18px;
+
+            background:
+                rgba(255, 255, 255, 0.12);
+
+            backdrop-filter: blur(8px);
+
+            border:
+                1px solid rgba(255,255,255,0.18);
+
+            border-radius: 15px;
+
+            color: white;
+
+            text-align: center;
+
+            transition:
+                transform 0.25s ease,
+                background 0.25s ease;
+        }
+
+
+        .info-card:hover {
+            transform: translateY(-5px);
+
+            background:
+                rgba(255, 255, 255, 0.18);
+        }
+
+
+        .info-card h3 {
+            margin-bottom: 8px;
+            font-size: 17px;
+        }
+
+
+        .info-card p {
+            font-size: 13px;
+            color: #dbeafe;
+            line-height: 1.5;
+        }
+
+
+        /* Footer */
+
+        footer {
+            text-align: center;
+            color: #cbd5e1;
+            margin-top: 28px;
+            font-size: 13px;
+        }
+
+
+        /* Responsive */
+
+        @media (max-width: 750px) {
+
+            .header h1 {
+                font-size: 32px;
+            }
+
+
+            .prediction-card {
+                padding: 24px;
+            }
+
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .info-section {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="page-container">
+
+
+    <!-- Header -->
+
+    <header class="header">
+
+        <h1>
+            Customer Churn Predictor
+        </h1>
+
+        <p>
+            Enter the customer's information below and let the
+            machine learning model estimate whether the customer
+            is likely to churn.
+        </p>
+
+    </header>
+
+
+
+    <!-- Main prediction form -->
+
+    <main class="prediction-card">
+
+
+        <div class="form-heading">
+
+            <h2>
+                Customer Information
+            </h2>
+
+            <p>
+                Complete the details below and click
+                <strong>Predict Customer Churn</strong>.
+            </p>
+
+        </div>
+
+
+
+        <form method="POST">
+
+
+            <div class="form-grid">
+
+
+                <!-- Gender -->
+
+                <div class="form-group">
+
+                    <label>
+                        Gender
+                    </label>
+
+                    <select name="gender" required>
+
+                        <option value="" disabled selected>
+                            Select gender
+                        </option>
+
+                        <option value="Male">
+                            Male
+                        </option>
+
+                        <option value="Female">
+                            Female
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- Partner -->
+
+                <div class="form-group">
+
+                    <label>
+                        Partner
+                    </label>
+
+                    <select name="Partner" required>
+
+                        <option value="" disabled selected>
+                            Select option
+                        </option>
+
+                        <option value="Yes">
+                            Yes
+                        </option>
+
+                        <option value="No">
+                            No
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- Dependents -->
+
+                <div class="form-group">
+
+                    <label>
+                        Dependents
+                    </label>
+
+                    <select name="Dependents" required>
+
+                        <option value="" disabled selected>
+                            Select option
+                        </option>
+
+                        <option value="Yes">
+                            Yes
+                        </option>
+
+                        <option value="No">
+                            No
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- Senior Citizen -->
+
+                <div class="form-group">
+
+                    <label>
+                        Senior Citizen
+                    </label>
+
+                    <select name="SeniorCitizen" required>
+
+                        <option value="" disabled selected>
+                            Select option
+                        </option>
+
+                        <option value="0">
+                            No
+                        </option>
+
+                        <option value="1">
+                            Yes
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- Tenure -->
+
+                <div class="form-group">
+
+                    <label>
+                        Tenure (Months)
+                    </label>
+
+                    <input
+                        type="number"
+                        name="tenure"
+                        min="0"
+                        max="72"
+                        placeholder="Example: 22"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- Phone Service -->
+
+                <div class="form-group">
+
+                    <label>
+                        Phone Service
+                    </label>
+
+                    <select name="PhoneService" required>
+
+                        <option value="" disabled selected>
+                            Select option
+                        </option>
+
+                        <option value="Yes">
+                            Yes
+                        </option>
+
+                        <option value="No">
+                            No
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- Internet Service -->
+
+                <div class="form-group">
+
+                    <label>
+                        Internet Service
+                    </label>
+
+                    <select name="InternetService" required>
+
+                        <option value="" disabled selected>
+                            Select service
+                        </option>
+
+                        <option value="DSL">
+                            DSL
+                        </option>
+
+                        <option value="Fiber optic">
+                            Fiber Optic
+                        </option>
+
+                        <option value="No">
+                            No Internet Service
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- Tech Support -->
+
+                <div class="form-group">
+
+                    <label>
+                        Tech Support
+                    </label>
+
+                    <select name="TechSupport" required>
+
+                        <option value="" disabled selected>
+                            Select option
+                        </option>
+
+                        <option value="Yes">
+                            Yes
+                        </option>
+
+                        <option value="No">
+                            No
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- Contract -->
+
+                <div class="form-group">
+
+                    <label>
+                        Contract Type
+                    </label>
+
+                    <select name="Contract" required>
+
+                        <option value="" disabled selected>
+                            Select contract
+                        </option>
+
+                        <option value="Month-to-month">
+                            Month-to-month
+                        </option>
+
+                        <option value="One year">
+                            One Year
+                        </option>
+
+                        <option value="Two year">
+                            Two Year
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- Payment Method -->
+
+                <div class="form-group">
+
+                    <label>
+                        Payment Method
+                    </label>
+
+                    <select name="PaymentMethod" required>
+
+                        <option value="" disabled selected>
+                            Select payment method
+                        </option>
+
+                        <option value="Electronic check">
+                            Electronic Check
+                        </option>
+
+                        <option value="Mailed check">
+                            Mailed Check
+                        </option>
+
+                        <option value="Bank transfer (automatic)">
+                            Bank Transfer (Automatic)
+                        </option>
+
+                        <option value="Credit card (automatic)">
+                            Credit Card (Automatic)
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- Total Charges -->
+
+                <div class="form-group">
+
+                    <label>
+                        Total Charges
+                    </label>
+
+                    <input
+                        type="number"
+                        name="TotalCharges"
+                        step="0.01"
+                        min="0"
+                        placeholder="Example: 1949.40"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- Streaming TV -->
+
+                <div class="form-group">
+
+                    <label>
+                        Streaming TV
+                    </label>
+
+                    <select name="StreamingTV" required>
+
+                        <option value="" disabled selected>
+                            Select option
+                        </option>
+
+                        <option value="Yes">
+                            Yes
+                        </option>
+
+                        <option value="No">
+                            No
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- Streaming Movies -->
+
+                <div class="form-group">
+
+                    <label>
+                        Streaming Movies
+                    </label>
+
+                    <select name="StreamingMovies" required>
+
+                        <option value="" disabled selected>
+                            Select option
+                        </option>
+
+                        <option value="Yes">
+                            Yes
+                        </option>
+
+                        <option value="No">
+                            No
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+
+
+            <hr class="divider">
+
+
+
+            <div class="button-container">
+
+                <button
+                    class="predict-button"
+                    type="submit"
+                >
+
+                    Predict Customer Churn
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+
+        <!-- Prediction result -->
+
+        {% if prediction %}
+
+            <div class="result">
+
+                <h2>
+                    Prediction Result
+                </h2>
+
+                <h3>
+                    {{ prediction }}
+                </h3>
+
+            </div>
+
+        {% endif %}
+
+
+    </main>
+
+
+
+    <!-- Extra info cards -->
+
+    <section class="info-section">
+
+
+        <div class="info-card">
+
+            <h3>
+                Machine Learning
+            </h3>
+
+            <p>
+                Customer information is passed to your
+                trained churn classification pipeline.
+            </p>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <h3>
+                Automatic Preprocessing
+            </h3>
+
+            <p>
+                Categorical and numerical features are
+                automatically transformed by the model pipeline.
+            </p>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <h3>
+                Instant Prediction
+            </h3>
+
+            <p>
+                The Flask backend returns the predicted
+                customer churn outcome directly to this page.
+            </p>
+
+        </div>
+
+
+    </section>
+
+
+
+    <footer>
+
+        Customer Churn Prediction System
+        &nbsp; | &nbsp;
+        By Om Satyawan Pathak
+
+    </footer>
+
+
+</div>
+
+</body>
+
+</html>
