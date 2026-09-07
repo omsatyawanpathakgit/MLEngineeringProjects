@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Predict Swiggy food delivery time from restaurant and order details.">
+    <title>Swiggy Food Intelligence</title>
+    <style>
+        :root {
+            --orange: #fc8019;
+            --orange-dark: #d95f00;
+            --ink: #202124;
+            --muted: #6f7378;
+            --line: #e7e3de;
+            --cream: #fffaf4;
+            --white: #ffffff;
+            --green: #137a53;
+            --shadow: 0 22px 60px rgba(90, 51, 19, 0.12);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            background: var(--cream);
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .page {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 90% 8%, rgba(252, 128, 25, 0.16), transparent 27rem),
+                linear-gradient(135deg, #fffaf4 0%, #fff5e9 48%, #f9eee2 100%);
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 28px 32px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            color: var(--ink);
+            font-size: 1.15rem;
+            font-weight: bold;
+            letter-spacing: 0;
+        }
+
+        .brand-mark {
+            display: grid;
+            width: 34px;
+            height: 34px;
+            place-items: center;
+            border-radius: 50%;
+            color: var(--white);
+            background: var(--orange);
+            font-family: Arial, sans-serif;
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .status {
+            color: var(--muted);
+            font-family: Arial, sans-serif;
+            font-size: 0.78rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: minmax(260px, 0.82fr) minmax(420px, 1.18fr);
+            gap: clamp(32px, 7vw, 92px);
+            align-items: center;
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 72px 32px 100px;
+        }
+
+        .intro { max-width: 460px; }
+
+        .eyebrow {
+            margin: 0 0 20px;
+            color: var(--orange-dark);
+            font-family: Arial, sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(3rem, 6vw, 5.4rem);
+            font-weight: 400;
+            letter-spacing: -0.04em;
+            line-height: 0.96;
+        }
+
+        .intro-copy {
+            max-width: 390px;
+            margin: 28px 0 0;
+            color: var(--muted);
+            font-family: Arial, sans-serif;
+            font-size: 1rem;
+            line-height: 1.65;
+        }
+
+        .form-panel {
+            padding: clamp(24px, 4vw, 42px);
+            border: 1px solid rgba(215, 181, 145, 0.45);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.88);
+            box-shadow: var(--shadow);
+        }
+
+        .secondary-panel { grid-column: 1 / -1; }
+
+        .segment-result {
+            border-left-color: var(--orange);
+            background: #fff5e9;
+        }
+
+        .segment-result .result-value { color: var(--orange-dark); }
+
+        .panel-heading {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            align-items: baseline;
+            margin-bottom: 26px;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 1.55rem;
+            font-weight: 400;
+        }
+
+        .required-note {
+            color: var(--muted);
+            font-family: Arial, sans-serif;
+            font-size: 0.72rem;
+        }
+
+        form { display: grid; gap: 18px; }
+
+        .field-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        label {
+            display: grid;
+            gap: 8px;
+            color: #45484c;
+            font-family: Arial, sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        input {
+            width: 100%;
+            min-height: 46px;
+            padding: 12px 13px;
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            outline: 0;
+            color: var(--ink);
+            background: #fffdfb;
+            font: 400 0.95rem Arial, sans-serif;
+            transition: border-color 160ms ease, box-shadow 160ms ease;
+        }
+
+        input:focus {
+            border-color: var(--orange);
+            box-shadow: 0 0 0 3px rgba(252, 128, 25, 0.14);
+        }
+
+        .action-row {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-top: 6px;
+        }
+
+        button {
+            min-height: 48px;
+            padding: 0 24px;
+            border: 0;
+            border-radius: 4px;
+            color: var(--white);
+            background: var(--orange);
+            cursor: pointer;
+            font: 700 0.9rem Arial, sans-serif;
+            transition: background 160ms ease, transform 160ms ease;
+        }
+
+        button:hover { background: var(--orange-dark); transform: translateY(-1px); }
+        button:disabled { cursor: wait; opacity: 0.7; transform: none; }
+
+        .helper {
+            margin: 0;
+            color: var(--muted);
+            font: 0.75rem/1.4 Arial, sans-serif;
+        }
+
+        .result {
+            display: none;
+            margin-top: 24px;
+            padding: 18px 20px;
+            border-left: 4px solid var(--green);
+            background: #eef8f2;
+        }
+
+        .result.visible { display: block; }
+        .result.error { border-left-color: #b43e2d; background: #fff0ed; }
+
+        .result-label {
+            margin: 0 0 5px;
+            color: var(--muted);
+            font: 700 0.7rem Arial, sans-serif;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .result-value {
+            margin: 0;
+            color: var(--green);
+            font-size: 2rem;
+        }
+
+        .result.error .result-value { color: #a33124; font-size: 1rem; line-height: 1.45; }
+
+        @media (max-width: 760px) {
+            header { padding: 22px 20px; }
+            .status { display: none; }
+            main {
+                grid-template-columns: 1fr;
+                padding: 48px 20px 64px;
+            }
+            .intro { max-width: none; }
+            h1 { max-width: 520px; font-size: clamp(3.1rem, 15vw, 5rem); }
+        }
+
+        @media (max-width: 500px) {
+            .field-grid { grid-template-columns: 1fr; }
+            .action-row { align-items: stretch; flex-direction: column; }
+            button { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header>
+            <div class="brand"><span class="brand-mark">S</span> Swiggy Insights</div>
+            <div class="status">Food delivery intelligence (A Product by Om Satyawan Pathak)</div>
+        </header>
+
+        <main>
+            <section class="intro" aria-labelledby="page-title">
+                <p class="eyebrow">Delivery time prediction</p>
+                <h1>Know before it arrives.</h1>
+                <p class="intro-copy">Enter the order details and let the trained Swiggy model estimate the delivery time in minutes.</p>
+            </section>
+
+            <section class="form-panel" aria-labelledby="form-title">
+                <div class="panel-heading">
+                    <h2 id="form-title">Order details</h2>
+                    <span class="required-note">All fields required</span>
+                </div>
+
+                <form id="prediction-form">
+                    <div class="field-grid">
+                        <label for="area">Area
+                            <input id="area" name="Area" type="text" placeholder="e.g. Andheri East" required>
+                        </label>
+                        <label for="city">City
+                            <input id="city" name="City" type="text" placeholder="e.g. Mumbai" required>
+                        </label>
+                    </div>
+
+                    <label for="restaurant">Restaurant
+                        <input id="restaurant" name="Restaurant" type="text" placeholder="e.g. Kung Fu Panda" required>
+                    </label>
+
+                    <div class="field-grid">
+                        <label for="price">Price
+                            <input id="price" name="Price" type="number" min="0" step="0.01" placeholder="600" required>
+                        </label>
+                        <label for="rating">Average rating
+                            <input id="rating" name="Avg ratings" type="number" min="0" max="5" step="0.1" placeholder="4.3" required>
+                        </label>
+                    </div>
+
+                    <div class="field-grid">
+                        <label for="total-ratings">Total ratings
+                            <input id="total-ratings" name="Total ratings" type="number" min="0" step="1" placeholder="100" required>
+                        </label>
+                        <label for="address">Address
+                            <input id="address" name="Address" type="text" placeholder="Restaurant address" required>
+                        </label>
+                    </div>
+
+                    <div class="action-row">
+                        <button id="submit-button" type="submit">Predict delivery time</button>
+                    </div>
+                </form>
+
+                <div id="result" class="result" role="status" aria-live="polite">
+                    <p class="result-label">Estimated delivery time</p>
+                    <p id="result-value" class="result-value"></p>
+                </div>
+            </section>
+
+            <section class="form-panel secondary-panel" aria-labelledby="segment-title">
+                <div class="panel-heading">
+                    <h2 id="segment-title">Price segment</h2>
+                    <span class="required-note">Classification model</span>
+                </div>
+
+                <form id="segment-form">
+                    <div class="field-grid">
+                        <label for="segment-area">Area
+                            <input id="segment-area" name="Area" type="text" placeholder="e.g. Andheri East" required>
+                        </label>
+                        <label for="segment-city">City
+                            <input id="segment-city" name="City" type="text" placeholder="e.g. Mumbai" required>
+                        </label>
+                    </div>
+
+                    <label for="segment-restaurant">Restaurant
+                        <input id="segment-restaurant" name="Restaurant" type="text" placeholder="e.g. Kung Fu Panda" required>
+                    </label>
+
+                    <div class="field-grid">
+                        <label for="segment-rating">Average rating
+                            <input id="segment-rating" name="Avg ratings" type="number" min="0" max="5" step="0.1" placeholder="4.3" required>
+                        </label>
+                        <label for="segment-total-ratings">Total ratings
+                            <input id="segment-total-ratings" name="Total ratings" type="number" min="0" step="1" placeholder="100" required>
+                        </label>
+                    </div>
+
+                    <div class="field-grid">
+                        <label for="food-type">Food type
+                            <input id="food-type" name="Food type" type="text" placeholder="e.g. Indian" required>
+                        </label>
+                        <label for="segment-address">Address
+                            <input id="segment-address" name="Address" type="text" placeholder="Restaurant address" required>
+                        </label>
+                    </div>
+
+                    <div class="action-row">
+                        <button id="segment-submit-button" type="submit">Classify price segment</button>
+                    </div>
+                </form>
+
+                <div id="segment-result" class="result segment-result" role="status" aria-live="polite">
+                    <p class="result-label">Predicted price segment</p>
+                    <p id="segment-result-value" class="result-value"></p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const API_URL = "/predict";
+        const SEGMENT_API_URL = "/predict-price-segment";
+        const form = document.getElementById("prediction-form");
+        const button = document.getElementById("submit-button");
+        const result = document.getElementById("result");
+        const resultValue = document.getElementById("result-value");
+        const segmentForm = document.getElementById("segment-form");
+        const segmentButton = document.getElementById("segment-submit-button");
+        const segmentResult = document.getElementById("segment-result");
+        const segmentResultValue = document.getElementById("segment-result-value");
+
+        function showResult(message, isError) {
+            result.classList.toggle("error", isError);
+            result.classList.add("visible");
+            resultValue.textContent = message;
+        }
+
+        function showSegmentResult(message, isError) {
+            segmentResult.classList.toggle("error", isError);
+            segmentResult.classList.add("visible");
+            segmentResultValue.textContent = message;
+        }
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            button.disabled = true;
+            button.textContent = "Predicting...";
+            result.classList.remove("visible", "error");
+
+            const formData = new FormData(form);
+            const payload = Object.fromEntries(formData.entries());
+            payload.Price = Number(payload.Price);
+            payload["Avg ratings"] = Number(payload["Avg ratings"]);
+            payload["Total ratings"] = Number(payload["Total ratings"]);
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.error || data.message || "The server could not make a prediction.");
+                }
+
+                const prediction = data.predicted_delivery_time ?? data.prediction ?? data.delivery_time;
+                if (prediction === undefined || prediction === null) {
+                    throw new Error("The server response did not include a prediction.");
+                }
+                showResult(`${Math.round(Number(prediction))} minutes`, false);
+            } catch (error) {
+                showResult(error.message.includes("Failed to fetch")
+                    ? "Could not connect to the prediction server. Start the backend on port 5000 and try again."
+                    : error.message, true);
+            } finally {
+                button.disabled = false;
+                button.textContent = "Predict delivery time";
+            }
+        });
+
+        segmentForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            segmentButton.disabled = true;
+            segmentButton.textContent = "Classifying...";
+            segmentResult.classList.remove("visible", "error");
+
+            const formData = new FormData(segmentForm);
+            const payload = Object.fromEntries(formData.entries());
+            payload["Avg ratings"] = Number(payload["Avg ratings"]);
+            payload["Total ratings"] = Number(payload["Total ratings"]);
+
+            try {
+                const response = await fetch(SEGMENT_API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.error || data.message || "The server could not classify this restaurant.");
+                }
+
+                const prediction = data.price_segment ?? data.prediction ?? data.segment;
+                if (prediction === undefined || prediction === null) {
+                    throw new Error("The server response did not include a price segment.");
+                }
+                showSegmentResult(String(prediction), false);
+            } catch (error) {
+                showSegmentResult(error.message.includes("Failed to fetch")
+                    ? "Could not connect to the classification server. Start the backend on port 5000 and try again."
+                    : error.message, true);
+            } finally {
+                segmentButton.disabled = false;
+                segmentButton.textContent = "Classify price segment";
+            }
+        });
+    </script>
+</body>
+</html>
