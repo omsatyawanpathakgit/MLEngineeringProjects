@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Online Movie Recommender System</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(255, 0, 85, 0.20),
+                    transparent 35%
+                ),
+
+                radial-gradient(
+                    circle at bottom right,
+                    rgba(111, 0, 255, 0.25),
+                    transparent 35%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #07070d,
+                    #11111d,
+                    #090912
+                );
+
+            color: white;
+
+            display: flex;
+            justify-content: center;
+
+            padding: 50px 20px;
+
+            overflow-x: hidden;
+        }
+
+
+        /* Background glow */
+
+        body::before {
+
+            content: "";
+
+            position: fixed;
+
+            width: 450px;
+            height: 450px;
+
+            background: #ff004c;
+
+            filter: blur(180px);
+
+            opacity: 0.15;
+
+            top: -150px;
+            left: -100px;
+
+            z-index: -1;
+        }
+
+
+        body::after {
+
+            content: "";
+
+            position: fixed;
+
+            width: 450px;
+            height: 450px;
+
+            background: #6c2cff;
+
+            filter: blur(180px);
+
+            opacity: 0.17;
+
+            right: -100px;
+            bottom: -150px;
+
+            z-index: -1;
+        }
+
+
+        /* Main container */
+
+        .container {
+
+            width: 100%;
+            max-width: 900px;
+
+            padding: 50px;
+
+            background:
+                rgba(255, 255, 255, 0.07);
+
+            backdrop-filter: blur(18px);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.12);
+
+            border-radius: 28px;
+
+            box-shadow:
+                0 25px 80px rgba(0, 0, 0, 0.55);
+
+            text-align: center;
+
+            animation:
+                appear 0.8s ease;
+        }
+
+
+        @keyframes appear {
+
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* Movie icon */
+
+        .movie-icon {
+
+            width: 80px;
+            height: 80px;
+
+            margin: auto;
+            margin-bottom: 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 42px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff1744,
+                    #ff006e
+                );
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 10px 35px
+                rgba(255, 0, 90, 0.35);
+
+            transition: 0.3s;
+        }
+
+
+        .movie-icon:hover {
+
+            transform:
+                scale(1.08)
+                rotate(-4deg);
+        }
+
+
+        /* Heading */
+
+        h1 {
+
+            font-size: 42px;
+
+            font-weight: 800;
+
+            letter-spacing: -1px;
+
+            margin-bottom: 10px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #d6d6e7
+                );
+
+            -webkit-background-clip: text;
+
+            color: transparent;
+        }
+
+
+        .subtitle {
+
+            color: #aaaabc;
+
+            font-size: 17px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .creator {
+
+            display: inline-block;
+
+            margin-top: 8px;
+            margin-bottom: 38px;
+
+            padding:
+                7px 16px;
+
+            border-radius: 50px;
+
+            background:
+                rgba(255, 255, 255, 0.07);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.10);
+
+            color: #dedee9;
+
+            font-size: 14px;
+        }
+
+
+        /* Form */
+
+        form {
+
+            display: flex;
+
+            gap: 12px;
+
+            padding: 8px;
+
+            background:
+                rgba(255, 255, 255, 0.07);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.12);
+
+            border-radius: 18px;
+
+            margin-bottom: 38px;
+
+            transition: 0.3s;
+        }
+
+
+        form:focus-within {
+
+            border-color:
+                rgba(255, 0, 100, 0.8);
+
+            box-shadow:
+                0 0 25px
+                rgba(255, 0, 80, 0.15);
+        }
+
+
+        /* Input */
+
+        input[type="text"] {
+
+            flex: 1;
+
+            padding:
+                17px 20px;
+
+            font-size: 16px;
+
+            color: white;
+
+            background: transparent;
+
+            border: none;
+
+            outline: none;
+        }
+
+
+        input::placeholder {
+
+            color: #8d8d9d;
+        }
+
+
+        /* Button */
+
+        button {
+
+            padding:
+                15px 28px;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 13px;
+
+            cursor: pointer;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff1744,
+                    #ff006e
+                );
+
+            box-shadow:
+                0 8px 25px
+                rgba(255, 0, 90, 0.30);
+
+            transition:
+                transform 0.25s,
+                box-shadow 0.25s;
+        }
+
+
+        button:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 12px 32px
+                rgba(255, 0, 90, 0.50);
+        }
+
+
+        button:active {
+
+            transform:
+                scale(0.97);
+        }
+
+
+        /* Recommendations */
+
+        .recommendations {
+
+            margin-top: 10px;
+
+            text-align: left;
+
+            animation:
+                recommendationsAppear
+                0.6s ease;
+        }
+
+
+        @keyframes recommendationsAppear {
+
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        .recommendations h2 {
+
+            font-size: 25px;
+
+            margin-bottom: 20px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .recommendations h2::before {
+
+            content: "🍿";
+        }
+
+
+        /* Movie list */
+
+        ul {
+
+            list-style: none;
+
+            display: grid;
+
+            gap: 14px;
+        }
+
+
+        li {
+
+            display: flex;
+
+            align-items: center;
+
+            padding:
+                18px 20px;
+
+            background:
+                rgba(255, 255, 255, 0.055);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.09);
+
+            border-radius: 16px;
+
+            font-size: 17px;
+
+            font-weight: 600;
+
+            color: #eeeeF5;
+
+            transition: 0.3s;
+        }
+
+
+        li::before {
+
+            content: "🎬";
+
+            width: 42px;
+            height: 42px;
+
+            min-width: 42px;
+
+            margin-right: 16px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 23, 68, 0.25),
+                    rgba(255, 0, 110, 0.20)
+                );
+        }
+
+
+        li:hover {
+
+            transform:
+                translateX(7px);
+
+            background:
+                rgba(255, 255, 255, 0.09);
+
+            border-color:
+                rgba(255, 0, 90, 0.30);
+
+            box-shadow:
+                0 10px 30px
+                rgba(0, 0, 0, 0.25);
+        }
+
+
+        /* Initial empty state */
+
+        .empty-state {
+
+            margin-top: 20px;
+
+            padding:
+                30px 20px;
+
+            color: #8f8fa3;
+
+            border:
+                1px dashed
+                rgba(255, 255, 255, 0.10);
+
+            border-radius: 16px;
+        }
+
+
+        .empty-state .empty-icon {
+
+            font-size: 35px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .empty-state h2 {
+
+            color: #d7d7df;
+
+            font-size: 20px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .empty-state p {
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+
+        /* Footer */
+
+        .footer {
+
+            margin-top: 40px;
+
+            padding-top: 20px;
+
+            border-top:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+
+            color: #777789;
+
+            font-size: 13px;
+        }
+
+
+        .footer span {
+
+            color: #ff4d7d;
+        }
+
+
+        /* Responsive */
+
+        @media(max-width: 700px) {
+
+            body {
+                padding: 25px 15px;
+            }
+
+
+            .container {
+
+                padding:
+                    35px 20px;
+
+                border-radius:
+                    22px;
+            }
+
+
+            h1 {
+
+                font-size:
+                    31px;
+            }
+
+
+            .subtitle {
+
+                font-size:
+                    15px;
+            }
+
+
+            form {
+
+                flex-direction:
+                    column;
+
+                background:
+                    transparent;
+
+                border:
+                    none;
+
+                padding:
+                    0;
+            }
+
+
+            input[type="text"] {
+
+                width:
+                    100%;
+
+                border:
+                    1px solid
+                    rgba(255, 255, 255, 0.12);
+
+                border-radius:
+                    13px;
+
+                background:
+                    rgba(255, 255, 255, 0.07);
+            }
+
+
+            button {
+
+                width:
+                    100%;
+
+                margin-top:
+                    3px;
+            }
+
+
+            li {
+
+                font-size:
+                    15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+
+        <!-- Movie Icon -->
+
+        <div class="movie-icon">
+            🎬
+        </div>
+
+
+        <!-- Main Heading -->
+
+        <h1>
+            Online Movie Recommender System
+        </h1>
+
+
+        <p class="subtitle">
+
+            Discover movies similar to the ones you already love.
+
+        </p>
+
+
+        <div class="creator">
+
+            Developed by
+
+            <strong>
+                Om Satyawan Pathak
+            </strong>
+
+        </div>
+
+
+
+        <!-- ==============================
+             SEARCH FORM
+        =============================== -->
+
+        <form method="POST" action="/">
+
+            <input
+                type="text"
+                name="movie_name"
+                placeholder="🔎 Enter a movie name, e.g. Avatar"
+                autocomplete="off"
+                required
+            >
+
+
+            <button type="submit">
+
+                Give Recommendations ✨
+
+            </button>
+
+        </form>
+
+
+
+        <!-- ==============================
+             RECOMMENDATIONS
+        =============================== -->
+
+        {% if predicted_movies %}
+
+
+            <div class="recommendations">
+
+
+                <h2>
+                    Recommended Movies
+                </h2>
+
+
+                <ul>
+
+
+                    {% for movie in predicted_movies %}
+
+
+                        <li>
+
+                            {{ movie }}
+
+                        </li>
+
+
+                    {% endfor %}
+
+
+                </ul>
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <!--
+                Initial GET / refresh:
+                predicted_movies = []
+
+                Therefore this empty state is shown.
+            -->
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    🎞️
+                </div>
+
+
+                <h2>
+                    Ready for your next movie?
+                </h2>
+
+
+                <p>
+
+                    Enter a movie name above and
+                    five similar movies will appear here.
+
+                </p>
+
+            </div>
+
+
+        {% endif %}
+
+
+
+        <!-- Footer -->
+
+        <div class="footer">
+
+            Content-Based Movie Recommendation System
+
+
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>
