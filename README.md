@@ -27,8 +27,7 @@ The projects demonstrate the complete workflow from data preprocessing and model
 * Joblib
 * Pickle
 * Flask
-* HTML
-* CSS
+* Frontend (HTML,CSS)
 * Docker
 
 ## Areas Covered
@@ -41,9 +40,6 @@ The projects demonstrate the complete workflow from data preprocessing and model
 * Statistical Analysis
 * Hypothesis Testing
 * Data Visualization
-
-### Machine Learning
-
 * Regression
 * Classification
 * Recommendation Systems
@@ -92,7 +88,7 @@ MLEngineeringProjects/
 
 # Book Recommender System
 
-A collaborative-filtering based Book Recommender System built using Python, Pandas, NumPy, and Scikit-learn.
+A collaborative-filtering-based Book Recommender System built using Python, Pandas, NumPy, and Scikit-learn.
 
 The system uses historical user-book ratings to identify books with similar rating patterns and recommends the top similar books for a selected title.
 
@@ -320,6 +316,8 @@ BookRecommenderSystem_MLProject/
 ## Author
 
 **Om Satyawan Pathak**
+
+
 
 
 
@@ -588,8 +586,7 @@ Customer Churn Prediction/
 * Seaborn
 * Joblib
 * Flask
-* HTML
-* CSS
+* Frontend (HTML, CSS)
 
 ## Key Learning Outcomes
 
@@ -863,8 +860,7 @@ MovieRecommenderSystem MLEngineering PROJECT/
 * CountVectorizer
 * Cosine Similarity
 * Flask
-* HTML
-* CSS
+* Frontend (HTML,CSS)
 * Docker
 
 ## Key Learning Outcomes
@@ -1268,8 +1264,7 @@ Swiggy FoodDelivery Analysis Website/
 
 * Joblib
 * Flask
-* HTML
-* CSS
+* Frontend (HTML,CSS)
 
 ## Key Learning Outcomes
 
