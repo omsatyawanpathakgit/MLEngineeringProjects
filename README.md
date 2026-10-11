@@ -10,6 +10,7 @@ The projects demonstrate the complete workflow from data preprocessing and model
 | ------------------------------------------------------------------------------- | --------------------- | --------------------------------------------------- | ------------- |
 | [Book Recommender System](./BookRecommenderSystem_MLProject/)                   | Recommendation System | Collaborative Filtering, Cosine Similarity          | Flask         |
 | [Customer Churn Prediction](./Customer%20Churn%20Prediction/)                   | Classification        | Traditional ML, Classification                      | Flask         |
+| [Customer Segmentation Project using KMeans] (./customer-segmentation-kmeans/)  | Clustering            | KMeans Clustering                                   | Flask         |
 | [Movie Recommender System](./MovieRecommenderSystem%20MLEngineering%20PROJECT/) | Recommendation System | Content-Based Filtering, NLP, Cosine Similarity     | Flask, Docker |
 | [Swiggy Food Intelligence](./Swiggy%20FoodDelivery%20Analysis%20Website/)       | Data Science + ML     | EDA, Hypothesis Testing, Regression, Classification | Flask         |
 
