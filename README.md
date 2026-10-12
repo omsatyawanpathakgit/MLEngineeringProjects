@@ -2,76 +2,73 @@
 
 This repository contains machine learning engineering projects built using Python, traditional machine learning algorithms, data analysis, recommendation systems, and Flask-based deployment.
 
-The projects demonstrate the complete workflow from data preprocessing and model development to model serialization and deployment as web applications.
+The projects demonstrate the complete workflow, from data preprocessing and model development to model serialization and deployment as web applications.
 
 ## Projects
 
-| Project                                                                         | Area                  | Techniques                                          | Deployment    |
-| ------------------------------------------------------------------------------- | --------------------- | --------------------------------------------------- | ------------- |
-| [Book Recommender System](./BookRecommenderSystem_MLProject/)                   | Recommendation System | Collaborative Filtering, Cosine Similarity          | Flask         |
-| [Customer Churn Prediction](./Customer%20Churn%20Prediction/)                   | Classification        | Traditional ML, Classification                      | Flask         |
-| [Customer Segmentation Project using KMeans](./customer-segmentation-kmeans/)  | Clustering            | KMeans Clustering                                    | Flask , Vercel|
-| [Movie Recommender System](./MovieRecommenderSystem%20MLEngineering%20PROJECT/) | Recommendation System | Content-Based Filtering, NLP, Cosine Similarity     | Flask, Docker |
-| [Swiggy Food Intelligence](./Swiggy%20FoodDelivery%20Analysis%20Website/)       | Data Science + ML     | EDA, Hypothesis Testing, Regression, Classification | Flask         |
+| Project | Area | Techniques | Deployment |
+|---|---|---|---|
+| [Book Recommender System](./BookRecommenderSystem_MLProject/) | Recommendation System | Collaborative Filtering, Cosine Similarity | Flask |
+| [Customer Churn Prediction](./Customer%20Churn%20Prediction/) | Classification | Traditional ML, Classification | Flask |
+| [Customer Segmentation Project Using K-Means](./customer-segmentation-kmeans/) | Clustering | K-Means Clustering | Flask, Vercel |
+| [Movie Recommender System](./MovieRecommenderSystem%20MLEngineering%20PROJECT/) | Recommendation System | Content-Based Filtering, NLP, Cosine Similarity | Flask, Docker |
+| [Swiggy Food Intelligence](./Swiggy%20FoodDelivery%20Analysis%20Website/) | Data Science and ML | EDA, Hypothesis Testing, Regression, Classification | Flask |
 
 ## Technologies Used
 
-* Python
-* Pandas
-* NumPy
-* Scikit-learn
-* SciPy
-* XGBoost
-* Matplotlib
-* Seaborn
-* NLTK
-* Joblib
-* Pickle
-* Flask
-* Frontend (HTML,CSS)
-* Docker
-* Vercel
+- Python
+- Pandas
+- NumPy
+- Scikit-learn
+- SciPy
+- XGBoost
+- Matplotlib
+- Seaborn
+- NLTK
+- Joblib
+- Pickle
+- Flask
+- HTML and CSS
+- Docker
+- Vercel
 
 ## Areas Covered
 
 ### Data Science
 
-* Data Cleaning
-* Exploratory Data Analysis
-* Feature Engineering
-* Statistical Analysis
-* Hypothesis Testing
-* Data Visualization
-* Regression
-* Classification
-* Recommendation Systems
-* Model Comparison
-* Cross-Validation
-* Model Evaluation
-* Model Serialization
+- Data Cleaning
+- Exploratory Data Analysis
+- Feature Engineering
+- Statistical Analysis
+- Hypothesis Testing
+- Data Visualization
+- Regression
+- Classification
+- Recommendation Systems
+- Model Comparison
+- Cross-Validation
+- Model Evaluation
+- Model Serialization
 
 ### ML Engineering
 
-* Saving trained ML models
-* Loading models for inference
-* Flask model serving
-* REST API endpoints
-* HTML-based ML applications
-* Docker containerization
+- Saving trained ML models
+- Loading models for inference
+- Flask model serving
+- REST API endpoints
+- HTML-based ML applications
+- Docker containerization
+- Machine learning deployment
 
 ## Repository Structure
 
 ```text
 MLEngineeringProjects/
-│
 ├── BookRecommenderSystem_MLProject/
-│
 ├── Customer Churn Prediction/
-│
+├── customer-segmentation-kmeans/
 ├── MovieRecommenderSystem MLEngineering PROJECT/
-│
 ├── Swiggy FoodDelivery Analysis Website/
-│
 └── README.md
 ```
 
@@ -79,14 +76,7 @@ MLEngineeringProjects/
 
 **Om Satyawan Pathak**
 
-
-
-
-
-
-
-
-
+---
 
 # Book Recommender System
 
@@ -102,42 +92,42 @@ Instead of recommending books only from their metadata, the system uses interact
 
 ```text
 Books + Users + Ratings
-          |
-          v
-     Data Cleaning
-          |
-          v
-   User/Book Filtering
-          |
-          v
-     Rating Matrix
-          |
-          v
-   Cosine Similarity
-          |
-          v
- Similar Book Detection
-          |
-          v
-     Top 5 Books
+         |
+         v
+    Data Cleaning
+         |
+         v
+  User/Book Filtering
+         |
+         v
+    Rating Matrix
+         |
+         v
+  Cosine Similarity
+         |
+         v
+Similar Book Detection
+         |
+         v
+    Top 5 Books
 ```
 
 ## Dataset
 
 The project uses three CSV files:
 
-* `Books.csv`
-* `Users.csv`
-* `Ratings.csv`
+- `Books.csv`
+- `Users.csv`
+- `Ratings.csv`
 
 Important information includes:
 
-* Book title
-* ISBN
-* Book author
-* Book cover image URL
-* User ID
-* Book rating
+- Book title
+- ISBN
+- Book author
+- Book cover image URL
+- User ID
+- Book rating
 
 ## Recommendation Approach
 
@@ -150,10 +140,10 @@ The rating data is filtered to reduce noise and retain books and users with enou
 The final ratings data is converted into a user-book matrix.
 
 ```text
-                    User 1   User 2   User 3
-Book A                 5        0        4
-Book B                 4        0        5
-Book C                 0        4        4
+          User 1   User 2   User 3
+Book A      5        0        4
+Book B      4        0        5
+Book C      0        4        4
 ```
 
 Missing ratings are represented as `0`.
@@ -170,7 +160,7 @@ For a selected book, the system:
 2. Gets its similarity scores.
 3. Sorts books by similarity.
 4. Removes the selected book.
-5. Returns the top 5 recommendations.
+5. Returns the top five recommendations.
 
 ## Filtering
 
@@ -202,19 +192,15 @@ Structure:
 
 ```text
 book_recommender_flask/
-│
 ├── app.py
 ├── books_recommender_system.pkl
 ├── requirements.txt
-│
 ├── data/
 │   ├── Books.csv
 │   ├── Ratings.csv
 │   └── Users.csv
-│
 ├── static/
 │   └── style.css
-│
 └── templates/
     └── index.html
 ```
@@ -229,7 +215,7 @@ The application:
 
 ## Running the Application
 
-Navigate to:
+Navigate to the application directory:
 
 ```bash
 cd book_recommender_flask
@@ -253,42 +239,38 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-Run:
+Run the application:
 
 ```bash
 python app.py
 ```
 
-Open:
+Open the application at:
 
-```text
 http://127.0.0.1:5000
-```
 
 ## Technologies Used
 
-* Python
-* Pandas
-* NumPy
-* Scikit-learn
-* Cosine Similarity
-* Pickle
-* Flask
-* HTML
-* CSS
+- Python
+- Pandas
+- NumPy
+- Scikit-learn
+- Cosine Similarity
+- Pickle
+- Flask
+- HTML
+- CSS
 
 ## Project Structure
 
 ```text
 BookRecommenderSystem_MLProject/
-│
 ├── Books.csv
 ├── Ratings.csv
 ├── Users.csv
 ├── final_brs.ipynb
 ├── final_brs.pdf
 ├── books_recommender_system.pkl
-│
 ├── book_recommender_flask/
 │   ├── app.py
 │   ├── requirements.txt
@@ -296,44 +278,28 @@ BookRecommenderSystem_MLProject/
 │   ├── data/
 │   ├── static/
 │   └── templates/
-│
 ├── model_deployment/
 │   └── upload_model_to_s3.py
-│
 ├── project_demonstration.mp4
 └── README.md
 ```
 
 ## Key Learning Outcomes
 
-* Collaborative filtering
-* User-book rating matrices
-* Sparse data handling
-* Cosine similarity
-* Recommendation generation
-* Model serialization
-* Flask integration
-* ML model deployment
+- Collaborative filtering
+- User-book rating matrices
+- Sparse data handling
+- Cosine similarity
+- Recommendation generation
+- Model serialization
+- Flask integration
+- ML model deployment
 
 ## Author
 
 **Om Satyawan Pathak**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+---
 
 # Customer Churn Prediction
 
@@ -347,35 +313,36 @@ The project compares multiple classification algorithms, evaluates their perform
 Customer Dataset
        |
        v
-Data Cleaning
+  Data Cleaning
        |
        v
-Feature Selection
+  Feature Selection
        |
        v
-Train/Test Split
+  Train/Test Split
        |
        v
-Preprocessing
+  Preprocessing
        |
        +----------------------+
        |                      |
        v                      v
- Numerical               Categorical
- Features                 Features
+ Numerical              Categorical
+  Features               Features
        |                      |
- StandardScaler        OneHotEncoder
+       v                      v
+ StandardScaler         OneHotEncoder
        |                      |
        +----------+-----------+
                   |
                   v
-              ML Model
+               ML Model
                   |
                   v
           Churn Prediction
                   |
                   v
-             Flask App
+              Flask App
 ```
 
 ## Dataset
@@ -384,19 +351,19 @@ The project uses a Telco Customer Churn dataset.
 
 Important features include:
 
-* Gender
-* Partner
-* Dependents
-* Senior Citizen
-* Tenure
-* Phone Service
-* Internet Service
-* Technical Support
-* Contract
-* Payment Method
-* Total Charges
-* Streaming TV
-* Streaming Movies
+- Gender
+- Partner
+- Dependents
+- Senior Citizen
+- Tenure
+- Phone Service
+- Internet Service
+- Technical Support
+- Contract
+- Payment Method
+- Total Charges
+- Streaming TV
+- Streaming Movies
 
 The target variable is:
 
@@ -408,12 +375,12 @@ Churn
 
 The project performs:
 
-1. Removal of `customerID`
-2. Conversion of `TotalCharges` to numerical format
-3. Handling of invalid or missing values
-4. Train-test splitting
-5. Numerical feature scaling
-6. Categorical feature encoding
+1. Removal of `customerID`.
+2. Conversion of `TotalCharges` to numerical format.
+3. Handling of invalid or missing values.
+4. Train-test splitting.
+5. Numerical feature scaling.
+6. Categorical feature encoding.
 
 Numerical features are processed using:
 
@@ -433,11 +400,11 @@ A `ColumnTransformer` is used to combine both preprocessing approaches.
 
 The project compares:
 
-* Logistic Regression
-* K-Nearest Neighbors
-* Extra Trees Classifier
-* AdaBoost Classifier
-* XGBoost Classifier
+- Logistic Regression
+- K-Nearest Neighbors
+- Extra Trees Classifier
+- AdaBoost Classifier
+- XGBoost Classifier
 
 The models are evaluated using stratified cross-validation.
 
@@ -447,11 +414,11 @@ The recorded notebook results select Logistic Regression as the final model.
 
 Evaluation includes:
 
-* Cross-validation accuracy
-* Weighted F1 score
-* Test accuracy
-* Confusion matrix
-* Classification report
+- Cross-validation accuracy
+- Weighted F1 score
+- Test accuracy
+- Confusion matrix
+- Classification report
 
 Recorded final test performance is approximately:
 
@@ -501,7 +468,7 @@ Create a virtual environment:
 python -m venv venv
 ```
 
-Windows:
+Activate it on Windows:
 
 ```bash
 venv\Scripts\activate
@@ -513,17 +480,15 @@ Install dependencies:
 pip install flask pandas numpy scikit-learn imbalanced-learn xgboost joblib matplotlib seaborn
 ```
 
-Run:
+Run the application from the project root:
 
 ```bash
 python backend/app.py
 ```
 
-Open:
+Open the application at:
 
-```text
 http://127.0.0.1:5000
-```
 
 ## Example Input
 
@@ -545,7 +510,7 @@ Streaming Movies: No
 
 The application produces a churn classification.
 
-Example:
+Possible outputs:
 
 ```text
 This customer will NOT churn.
@@ -561,13 +526,10 @@ This customer WILL churn.
 
 ```text
 Customer Churn Prediction/
-│
 ├── backend/
 │   └── app.py
-│
 ├── frontend/
 │   └── index.html
-│
 ├── CustomerChurnPredictionModel.pkl
 ├── dataset.csv
 ├── Final_Customer_Churn_Prediction_Classification.ipynb
@@ -578,49 +540,40 @@ Customer Churn Prediction/
 
 ## Technologies Used
 
-* Python
-* Pandas
-* NumPy
-* Scikit-learn
-* Imbalanced-learn
-* XGBoost
-* Matplotlib
-* Seaborn
-* Joblib
-* Flask
-* Frontend (HTML, CSS)
+- Python
+- Pandas
+- NumPy
+- Scikit-learn
+- Imbalanced-learn
+- XGBoost
+- Matplotlib
+- Seaborn
+- Joblib
+- Flask
+- HTML
+- CSS
 
 ## Key Learning Outcomes
 
-* Traditional classification
-* Numerical and categorical preprocessing
-* Feature scaling
-* One-hot encoding
-* `ColumnTransformer`
-* Stratified cross-validation
-* Model comparison
-* Classification evaluation
-* Confusion matrices
-* Model serialization
-* Flask model deployment
+- Traditional classification
+- Numerical and categorical preprocessing
+- Feature scaling
+- One-hot encoding
+- `ColumnTransformer`
+- Stratified cross-validation
+- Model comparison
+- Classification evaluation
+- Confusion matrices
+- Model serialization
+- Flask model deployment
 
 ## Author
 
 **Om Satyawan Pathak**
 
+---
 
-
-
-
-
-
-
-
-
-
-
-
-# Customer Segmentation Project using KMeans
+# Customer Segmentation Project Using K-Means
 
 A customer segmentation project that groups mall customers into distinct clusters based on their Annual Income and Spending Score using K-Means Clustering.
 
@@ -630,90 +583,128 @@ The project includes exploratory data analysis, determination of the optimal num
 
 ```text
 Mall Customers Dataset
-|
-v
+         |
+         v
 Exploratory Data Analysis
-|
-v
-Feature Selection
+         |
+         v
+     Feature Selection
 (Annual Income + Spending Score)
-|
-v
-StandardScaler
-|
-v
-K-Means Clustering (K=5)
-|
-v
-Customer Segments
-|
-v
-Model Serialization
-|
-v
-Flask Web Application
-|
-v
-Vercel Deployment
+         |
+         v
+    StandardScaler
+         |
+         v
+  K-Means Clustering (K=5)
+         |
+         v
+   Customer Segments
+         |
+         v
+   Model Serialization
+         |
+         v
+   Flask Web Application
+         |
+         v
+    Vercel Deployment
+```
 
-## Dataset:
+## Dataset
+
+Dataset file:
+
+```text
 Mall_Customers.csv
+```
 
-## Important columns include:
-* CustomerID
-* Gender
-* Age
-* Annual Income (k$)
-* Spending Score (1-100)
+Important columns include:
 
+- `CustomerID`
+- `Gender`
+- `Age`
+- `Annual Income (k$)`
+- `Spending Score (1-100)`
 
 ## Exploratory Data Analysis
+
 The project performs analysis of:
 
-* Gender distribution
-* Age distribution
-* Annual Income distribution
-* Spending Score distribution
-* Correlation between numerical features
-* Scatter plot of Annual Income vs Spending Score
+- Gender distribution
+- Age distribution
+- Annual Income distribution
+- Spending Score distribution
+- Correlation between numerical features
+- Scatter plot of Annual Income versus Spending Score
 
 Visualizations are created using Matplotlib and Seaborn.
-Determining the Number of Clusters
+
+## Determining the Number of Clusters
+
 The optimal number of clusters is selected using:
 
-Elbow Method (WCSS)
-Silhouette Score
+- Elbow Method (WCSS)
+- Silhouette Score
 
 The silhouette scores and elbow curve indicate that K = 5 is the most suitable choice.
 
+## Customer Clusters
 
-## Clusters:
-0 - Moderate-Income, Moderate-Spending Customers
-1 - High-Income, High-Spending Customers
-2 - Low-Income, High-Spending Customers
-3 - High-Income, Low-Spending Customers
-4 - Low-Income, Low-Spending Customers
+| Cluster | Customer Segment |
+|---|---|
+| 0 | Moderate-Income, Moderate-Spending Customers |
+| 1 | High-Income, High-Spending Customers |
+| 2 | Low-Income, High-Spending Customers |
+| 3 | High-Income, Low-Spending Customers |
+| 4 | Low-Income, Low-Spending Customers |
 
+These labels represent interpretations of the clusters based on their characteristics.
 
-### Model Exported using the notebook following the pipeline format and the exported model was saved as:
+## Model Export
+
+The complete scikit-learn pipeline is exported from the notebook and saved as:
+
+```text
 complete_customer_segmentation_pipeline.pkl
+```
 
+The pipeline includes the preprocessing and clustering steps required to assign new customers to clusters.
 
+## Technologies Used
 
+- Python
+- Pandas
+- NumPy
+- Scikit-learn
+- Matplotlib
+- Seaborn
+- K-Means Clustering
+- StandardScaler
+- Flask
+- HTML
+- CSS
+- Vercel
+- Pickle or Joblib
 
+## Key Learning Outcomes
 
+- Exploratory Data Analysis
+- Customer segmentation
+- Unsupervised learning
+- K-Means Clustering
+- Feature scaling
+- Elbow Method
+- Silhouette Score
+- Scikit-learn pipelines
+- Model serialization
+- Flask deployment
+- Vercel deployment
 
+## Author
 
+**Om Satyawan Pathak**
 
-
-
-
-
-
-
-
-
-
+---
 
 # Movie Recommender System
 
@@ -725,35 +716,35 @@ The project includes a Flask web application and Docker configuration for deploy
 
 ```text
 TMDB Movies + Credits
-          |
-          v
-   Data Preprocessing
-          |
-          v
-   Feature Engineering
-          |
-          v
-    Create Tags
-          |
-          v
+         |
+         v
+  Data Preprocessing
+         |
+         v
+  Feature Engineering
+         |
+         v
+     Create Tags
+         |
+         v
        Stemming
-          |
-          v
+         |
+         v
     CountVectorizer
-          |
-          v
-   Movie Vectors
-          |
-          v
-  Cosine Similarity
-          |
-          v
-    Top 5 Movies
-          |
-          v
+         |
+         v
+     Movie Vectors
+         |
+         v
+   Cosine Similarity
+         |
+         v
+     Top 5 Movies
+         |
+         v
       Flask App
-          |
-          v
+         |
+         v
    Docker Container
 ```
 
@@ -770,15 +761,13 @@ The datasets are merged using movie title.
 
 Important columns include:
 
-```text
-movie_id
-title
-overview
-genres
-keywords
-cast
-crew
-```
+- `movie_id`
+- `title`
+- `overview`
+- `genres`
+- `keywords`
+- `cast`
+- `crew`
 
 ## Recommendation Approach
 
@@ -788,11 +777,11 @@ Instead of using user ratings, recommendations are generated from the similarity
 
 The following information is used:
 
-* Movie overview
-* Genres
-* Keywords
-* Cast
-* Director
+- Movie overview
+- Genres
+- Keywords
+- Cast
+- Director
 
 These fields are combined into a single column:
 
@@ -804,16 +793,16 @@ tags
 
 The project performs:
 
-1. Dataset merging
-2. Column selection
-3. Missing-value handling
-4. Duplicate checking
-5. Genre extraction
-6. Keyword extraction
-7. Cast extraction
-8. Director extraction
-9. Text normalization
-10. Creation of the `tags` column
+1. Dataset merging.
+2. Column selection.
+3. Missing-value handling.
+4. Duplicate checking.
+5. Genre extraction.
+6. Keyword extraction.
+7. Cast extraction.
+8. Director extraction.
+9. Text normalization.
+10. Creation of the `tags` column.
 
 ## Stemming
 
@@ -848,11 +837,11 @@ For a selected movie, the recommendation function:
 2. Retrieves similarity scores.
 3. Sorts movies according to similarity.
 4. Removes the selected movie.
-5. Returns the top 5 similar movies.
+5. Returns the top five similar movies.
 
 ## Model Artifacts
 
-The application uses:
+The application uses the following serialized files:
 
 ```text
 movies.pkl
@@ -894,17 +883,15 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-Run the Flask application:
+Run the Flask application from the project root:
 
 ```bash
 python backend/app.py
 ```
 
-Open:
+Open the application at:
 
-```text
 http://127.0.0.1:5000
-```
 
 ## Docker
 
@@ -920,32 +907,25 @@ Run the container:
 docker run -p 5000:5000 movies_recommender_system_project
 ```
 
-Open:
+Open the application at:
 
-```text
 http://localhost:5000
-```
 
 ## Project Structure
 
 ```text
 MovieRecommenderSystem MLEngineering PROJECT/
-│
 ├── backend/
 │   └── app.py
-│
 ├── frontend/
 │   └── index.html
-│
 ├── Dockerfile
 ├── requirements.txt
 ├── movies.pkl
 ├── similarity.pkl
 ├── movies_recommender_system.pkl
-│
 ├── tmdb_5000_movies.csv
 ├── tmdb_5000_credits.csv
-│
 ├── MOVIE RECOMMENDER SYSTEM (Content-Based).ipynb
 ├── MOVIE RECOMMENDER SYSTEM (Content-Based).pdf
 └── README.md
@@ -953,48 +933,37 @@ MovieRecommenderSystem MLEngineering PROJECT/
 
 ## Technologies Used
 
-* Python
-* Pandas
-* NumPy
-* Scikit-learn
-* NLTK
-* CountVectorizer
-* Cosine Similarity
-* Flask
-* Frontend (HTML,CSS)
-* Docker
+- Python
+- Pandas
+- NumPy
+- Scikit-learn
+- NLTK
+- CountVectorizer
+- Cosine Similarity
+- Flask
+- HTML
+- CSS
+- Docker
 
 ## Key Learning Outcomes
 
-* Content-based recommendation systems
-* Text preprocessing
-* Feature engineering
-* Stemming
-* Bag-of-Words
-* CountVectorizer
-* Cosine similarity
-* Recommendation generation
-* Model serialization
-* Flask deployment
-* Docker containerization
+- Content-based recommendation systems
+- Text preprocessing
+- Feature engineering
+- Stemming
+- Bag-of-Words
+- CountVectorizer
+- Cosine similarity
+- Recommendation generation
+- Model serialization
+- Flask deployment
+- Docker containerization
 
 ## Author
 
 **Om Satyawan Pathak**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+---
 
 # Swiggy Food Intelligence Project
 
@@ -1018,33 +987,33 @@ The project also uses statistical hypothesis testing to investigate relationship
 Swiggy Dataset
       |
       v
-Data Cleaning
+ Data Cleaning
       |
       +--------------------+
       |                    |
       v                    v
-     EDA            Hypothesis Testing
+     EDA           Hypothesis Testing
       |                    |
       +---------+----------+
                 |
                 v
-       Feature Engineering
+      Feature Engineering
                 |
                 v
         Traditional ML
           /         \
-         /           \
- Regression       Classification
-     |                 |
-     v                 v
-Delivery Time     Price Segment
-Prediction        Prediction
-     |
-     v
-Model Export
-     |
-     v
-Flask Application
+         v           v
+    Regression   Classification
+         |           |
+         v           v
+ Delivery Time   Price Segment
+  Prediction      Prediction
+         |
+         v
+     Model Export
+         |
+         v
+   Flask Application
 ```
 
 ## Dataset
@@ -1057,33 +1026,33 @@ dataset/swiggy.csv
 
 Important features include:
 
-* Area
-* City
-* Restaurant
-* Price
-* Average ratings
-* Total ratings
-* Address
-* Food type
-* Delivery time
+- Area
+- City
+- Restaurant
+- Price
+- Average ratings
+- Total ratings
+- Address
+- Food type
+- Delivery time
 
 ## Exploratory Data Analysis
 
 The project performs analysis of:
 
-* Delivery-time distribution
-* Restaurant prices
-* Average ratings
-* Total ratings
-* Food types
-* City-level patterns
-* Relationships between price and ratings
-* Relationships between ratings and delivery time
+- Delivery-time distribution
+- Restaurant prices
+- Average ratings
+- Total ratings
+- Food types
+- City-level patterns
+- Relationships between price and ratings
+- Relationships between ratings and delivery time
 
 Visualizations are created using:
 
-* Matplotlib
-* Seaborn
+- Matplotlib
+- Seaborn
 
 ## Hypothesis Testing
 
@@ -1107,31 +1076,22 @@ Compares ratings between Indian and Chinese restaurants.
 
 ### One-Way ANOVA
 
-Tests whether average delivery time differs among:
+Tests whether average delivery time differs among the following restaurant categories:
 
-* Indian
-* Chinese
-* Fast Food
-
-restaurants.
+- Indian
+- Chinese
+- Fast Food
 
 ### Chi-Square Test
 
 Tests the relationship between:
 
-```text
-City
-```
+- City
+- Food Type
 
-and:
+The notebook uses a significance level of:
 
-```text
-Food Type
-```
-
-The notebook uses:
-
-```text
+```python
 alpha = 0.05
 ```
 
@@ -1145,18 +1105,18 @@ The project predicts delivery time using restaurant, pricing, rating, and locati
 
 Regression algorithms compared include:
 
-* Linear Regression
-* K-Nearest Neighbors Regressor
-* Decision Tree Regressor
-* Extra Trees Regressor
-* AdaBoost Regressor
-* XGBoost Regressor
+- Linear Regression
+- K-Nearest Neighbors Regressor
+- Decision Tree Regressor
+- Extra Trees Regressor
+- AdaBoost Regressor
+- XGBoost Regressor
 
 Models are evaluated using:
 
-* R²
-* Mean Absolute Error
-* Root Mean Squared Error
+- R²
+- Mean Absolute Error (MAE)
+- Root Mean Squared Error (RMSE)
 
 The recorded notebook results identify XGBoost as the selected regression model, with an R² of approximately 0.67.
 
@@ -1166,33 +1126,33 @@ The trained model is stored as:
 Swiggy_FoodDeliveryTimePrediction_Model.pkl
 ```
 
-### 2. Fast vs Slow Delivery
+### 2. Fast vs. Slow Delivery
 
 A delivery-speed target is created using the median delivery time.
 
 ```text
-Fast -> delivery time <= median
-Slow -> delivery time > median
+Fast -> Delivery time <= median
+Slow -> Delivery time > median
 ```
 
 The project investigates relationships between delivery speed and:
 
-* Price
-* Average rating
-* Total ratings
+- Price
+- Average rating
+- Total ratings
 
 A Decision Tree Classifier is used for this task.
 
-### 3. Premium vs Budget
+### 3. Premium vs. Budget
 
-A price segment is created using restaurant price:
+A price segment is created using restaurant price.
 
 ```text
 Premium -> Price > 500
 Budget  -> Price <= 500
 ```
 
-The classification models are compared and the trained model is exported as:
+The classification models are compared, and the trained model is exported as:
 
 ```text
 Price_Classification.pkl
@@ -1251,7 +1211,7 @@ Address
 
 The endpoint returns a predicted delivery time.
 
-Example:
+Example response:
 
 ```json
 {
@@ -1266,7 +1226,7 @@ Example:
 POST /predict-price-segment
 ```
 
-Expected fields include:
+Expected input fields include:
 
 ```text
 Area
@@ -1295,7 +1255,7 @@ Create a virtual environment:
 python -m venv venv
 ```
 
-Windows:
+Activate it on Windows:
 
 ```bash
 venv\Scripts\activate
@@ -1307,35 +1267,28 @@ Install dependencies:
 pip install flask pandas numpy scikit-learn xgboost joblib
 ```
 
-Run:
+Run the application from the project root:
 
 ```bash
 python backend/app.py
 ```
 
-Open:
+Open the application at:
 
-```text
 http://127.0.0.1:5000
-```
 
 ## Project Structure
 
 ```text
 Swiggy FoodDelivery Analysis Website/
-│
 ├── backend/
 │   └── app.py
-│
 ├── frontend/
 │   └── index.html
-│
 ├── dataset/
 │   └── swiggy.csv
-│
 ├── Price_Classification.pkl
 ├── Swiggy_FoodDeliveryTimePrediction_Model.pkl
-│
 ├── source_code_swiggy.ipynb
 ├── source_code_swiggy.pdf
 ├── swiggy_fdAnalysis_project_demonstration.mp4
@@ -1346,46 +1299,46 @@ Swiggy FoodDelivery Analysis Website/
 
 ### Programming
 
-* Python
+- Python
 
 ### Data Analysis
 
-* Pandas
-* NumPy
-* Matplotlib
-* Seaborn
-* SciPy
+- Pandas
+- NumPy
+- Matplotlib
+- Seaborn
+- SciPy
 
 ### Machine Learning
 
-* Scikit-learn
-* XGBoost
+- Scikit-learn
+- XGBoost
 
 ### Deployment
 
-* Joblib
-* Flask
-* Frontend (HTML,CSS)
+- Joblib
+- Flask
+- HTML
+- CSS
 
 ## Key Learning Outcomes
 
-* Exploratory Data Analysis
-* Statistical hypothesis testing
-* t-tests
-* ANOVA
-* Chi-Square testing
-* Regression
-* Classification
-* Cross-validation
-* Traditional machine learning
-* Model comparison
-* Model serialization
-* Flask APIs
-* Machine learning deployment
+- Exploratory Data Analysis
+- Statistical hypothesis testing
+- t-tests
+- ANOVA
+- Chi-Square testing
+- Regression
+- Classification
+- Cross-validation
+- Traditional machine learning
+- Model comparison
+- Model serialization
+- Flask APIs
+- Machine learning deployment
 
 ## Author
 
 **Om Satyawan Pathak**
 
 Email: [omsatyawanpathakgit@gmail.com](mailto:omsatyawanpathakgit@gmail.com)
-
