@@ -10,7 +10,7 @@ The projects demonstrate the complete workflow from data preprocessing and model
 | ------------------------------------------------------------------------------- | --------------------- | --------------------------------------------------- | ------------- |
 | [Book Recommender System](./BookRecommenderSystem_MLProject/)                   | Recommendation System | Collaborative Filtering, Cosine Similarity          | Flask         |
 | [Customer Churn Prediction](./Customer%20Churn%20Prediction/)                   | Classification        | Traditional ML, Classification                      | Flask         |
-| [Customer Segmentation Project using KMeans](./customer-segmentation-kmeans/)  | Clustering            | KMeans Clustering                                   | Flask         |
+| [Customer Segmentation Project using KMeans](./customer-segmentation-kmeans/)  | Clustering            | KMeans Clustering                                    | Flask , Vercel|
 | [Movie Recommender System](./MovieRecommenderSystem%20MLEngineering%20PROJECT/) | Recommendation System | Content-Based Filtering, NLP, Cosine Similarity     | Flask, Docker |
 | [Swiggy Food Intelligence](./Swiggy%20FoodDelivery%20Analysis%20Website/)       | Data Science + ML     | EDA, Hypothesis Testing, Regression, Classification | Flask         |
 
@@ -30,6 +30,7 @@ The projects demonstrate the complete workflow from data preprocessing and model
 * Flask
 * Frontend (HTML,CSS)
 * Docker
+* Vercel
 
 ## Areas Covered
 
@@ -606,6 +607,105 @@ Customer Churn Prediction/
 ## Author
 
 **Om Satyawan Pathak**
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Customer Segmentation Project using KMeans
+
+A customer segmentation project that groups mall customers into distinct clusters based on their Annual Income and Spending Score using K-Means Clustering.
+
+The project includes exploratory data analysis, determination of the optimal number of clusters, a scikit-learn pipeline, model serialization, and a Flask web application deployed on Vercel.
+
+## Project Overview
+
+```text
+Mall Customers Dataset
+|
+v
+Exploratory Data Analysis
+|
+v
+Feature Selection
+(Annual Income + Spending Score)
+|
+v
+StandardScaler
+|
+v
+K-Means Clustering (K=5)
+|
+v
+Customer Segments
+|
+v
+Model Serialization
+|
+v
+Flask Web Application
+|
+v
+Vercel Deployment
+
+## Dataset:
+Mall_Customers.csv
+
+## Important columns include:
+* CustomerID
+* Gender
+* Age
+* Annual Income (k$)
+* Spending Score (1-100)
+
+
+## Exploratory Data Analysis
+The project performs analysis of:
+
+* Gender distribution
+* Age distribution
+* Annual Income distribution
+* Spending Score distribution
+* Correlation between numerical features
+* Scatter plot of Annual Income vs Spending Score
+
+Visualizations are created using Matplotlib and Seaborn.
+Determining the Number of Clusters
+The optimal number of clusters is selected using:
+
+Elbow Method (WCSS)
+Silhouette Score
+
+The silhouette scores and elbow curve indicate that K = 5 is the most suitable choice.
+
+
+## Clusters:
+0 - Moderate-Income, Moderate-Spending Customers
+1 - High-Income, High-Spending Customers
+2 - Low-Income, High-Spending Customers
+3 - High-Income, Low-Spending Customers
+4 - Low-Income, Low-Spending Customers
+
+
+### Model Exported using the notebook following the pipeline format and the exported model was saved as:
+complete_customer_segmentation_pipeline.pkl
+
+
+
+
+
+
+
+
+
 
 
 
