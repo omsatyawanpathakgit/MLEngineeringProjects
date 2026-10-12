@@ -10,7 +10,7 @@ The projects demonstrate the complete workflow, from data preprocessing and mode
 |---|---|---|---|
 | [Book Recommender System](./BookRecommenderSystem_MLProject/) | Recommendation System | Collaborative Filtering, Cosine Similarity | Flask |
 | [Customer Churn Prediction](./Customer%20Churn%20Prediction/) | Classification | Traditional ML, Classification | Flask |
-| [Customer Segmentation Project Using K-Means](./customer-segmentation-kmeans/) | Clustering | K-Means Clustering | Flask, Vercel |
+| [Customer Segmentation Using K-Means](./customer-segmentation-kmeans/) | Clustering | K-Means, StandardScaler, Elbow Method, Silhouette Score | Flask, Vercel |
 | [Movie Recommender System](./MovieRecommenderSystem%20MLEngineering%20PROJECT/) | Recommendation System | Content-Based Filtering, NLP, Cosine Similarity | Flask, Docker |
 | [Swiggy Food Intelligence](./Swiggy%20FoodDelivery%20Analysis%20Website/) | Data Science and ML | EDA, Hypothesis Testing, Regression, Classification | Flask |
 
@@ -44,6 +44,7 @@ The projects demonstrate the complete workflow, from data preprocessing and mode
 - Data Visualization
 - Regression
 - Classification
+- Clustering
 - Recommendation Systems
 - Model Comparison
 - Cross-Validation
@@ -57,24 +58,9 @@ The projects demonstrate the complete workflow, from data preprocessing and mode
 - Flask model serving
 - REST API endpoints
 - HTML-based ML applications
+- Scikit-learn pipelines
 - Docker containerization
 - Machine learning deployment
-
-## Repository Structure
-
-```text
-MLEngineeringProjects/
-├── BookRecommenderSystem_MLProject/
-├── Customer Churn Prediction/
-├── customer-segmentation-kmeans/
-├── MovieRecommenderSystem MLEngineering PROJECT/
-├── Swiggy FoodDelivery Analysis Website/
-└── README.md
-```
-
-## Author
-
-**Om Satyawan Pathak**
 
 ---
 
@@ -294,10 +280,6 @@ BookRecommenderSystem_MLProject/
 - Model serialization
 - Flask integration
 - ML model deployment
-
-## Author
-
-**Om Satyawan Pathak**
 
 ---
 
@@ -567,50 +549,84 @@ Customer Churn Prediction/
 - Model serialization
 - Flask model deployment
 
-## Author
-
-**Om Satyawan Pathak**
-
 ---
 
 # Customer Segmentation Project Using K-Means
 
-A customer segmentation project that groups mall customers into distinct clusters based on their Annual Income and Spending Score using K-Means Clustering.
+A machine learning project that performs customer segmentation using the K-Means Clustering algorithm.
 
-The project includes exploratory data analysis, determination of the optimal number of clusters, a scikit-learn pipeline, model serialization, and a Flask web application deployed on Vercel.
+The objective is to divide mall customers into meaningful groups based on their annual income and spending behaviour. These segments can help businesses understand different customer groups and develop targeted marketing strategies.
 
-## Project Overview
+The project covers exploratory data analysis, feature selection, feature scaling, optimal cluster selection, clustering evaluation, pipeline construction, model serialization, and deployment through a Flask web application on Vercel.
+
+## Project Objectives
+
+The main objectives are:
+
+- Explore customer demographics, income, and spending behaviour.
+- Identify meaningful customer segments using unsupervised learning.
+- Select suitable clustering features for segmentation.
+- Determine an appropriate number of clusters.
+- Evaluate clustering quality using the Elbow Method and Silhouette Score.
+- Build a reusable scikit-learn pipeline.
+- Save the trained pipeline for future predictions.
+- Integrate the clustering model into a Flask web application.
+- Deploy the application using Vercel.
+
+## Project Workflow
 
 ```text
 Mall Customers Dataset
-         |
-         v
+          |
+          v
+     Data Loading
+          |
+          v
+     Data Cleaning
+          |
+          v
 Exploratory Data Analysis
-         |
-         v
-     Feature Selection
-(Annual Income + Spending Score)
-         |
-         v
+          |
+          v
+    Feature Selection
+          |
+          v
+   Feature Scaling
     StandardScaler
-         |
-         v
-  K-Means Clustering (K=5)
-         |
-         v
-   Customer Segments
-         |
-         v
-   Model Serialization
-         |
-         v
-   Flask Web Application
-         |
-         v
-    Vercel Deployment
+          |
+          v
+ Determine Optimal K
+  |               |
+  v               v
+Elbow Method   Silhouette Score
+  |               |
+  +-------+-------+
+          |
+          v
+   K-Means Clustering
+          |
+          v
+  Customer Segments
+          |
+          v
+ Clustering Evaluation
+          |
+          v
+ Pipeline Construction
+          |
+          v
+  Model Serialization
+          |
+          v
+    Flask Application
+          |
+          v
+   Vercel Deployment
 ```
 
 ## Dataset
+
+The project uses the Mall Customers dataset.
 
 Dataset file:
 
@@ -618,91 +634,542 @@ Dataset file:
 Mall_Customers.csv
 ```
 
+The dataset contains customer demographic information and spending-related features.
+
 Important columns include:
 
-- `CustomerID`
-- `Gender`
-- `Age`
+| Column | Description |
+|---|---|
+| `CustomerID` | Unique identifier assigned to each customer |
+| `Gender` | Customer gender |
+| `Age` | Customer age |
+| `Annual Income (k$)` | Annual income measured in thousands of dollars |
+| `Spending Score (1-100)` | Spending score assigned to the customer |
+
+The main segmentation analysis uses:
+
 - `Annual Income (k$)`
 - `Spending Score (1-100)`
 
+These two features are used to identify groups with different income and spending patterns.
+
+`CustomerID` is an identifier rather than a meaningful clustering feature. Gender and age can be explored during EDA but are not included in the two-feature clustering model described here.
+
 ## Exploratory Data Analysis
 
-The project performs analysis of:
+Exploratory Data Analysis is performed to understand the dataset before applying K-Means Clustering.
+
+### 1. Dataset Inspection
+
+The dataset is inspected to understand its structure and contents.
+
+Typical operations include:
+
+- Viewing the first few rows.
+- Checking the number of rows and columns.
+- Examining data types.
+- Checking for missing values.
+- Checking for duplicate records.
+- Generating descriptive statistics.
+
+These checks help identify potential data-quality issues before modelling.
+
+### 2. Customer Demographics
+
+The project explores customer demographic characteristics, including:
 
 - Gender distribution
 - Age distribution
-- Annual Income distribution
-- Spending Score distribution
-- Correlation between numerical features
-- Scatter plot of Annual Income versus Spending Score
+- Age-related patterns in the dataset
 
-Visualizations are created using Matplotlib and Seaborn.
+These analyses provide context about the customers represented in the dataset.
 
-## Determining the Number of Clusters
+### 3. Income Analysis
 
-The optimal number of clusters is selected using:
+Annual income is examined to understand how income varies across customers.
 
-- Elbow Method (WCSS)
-- Silhouette Score
+The analysis can include:
 
-The silhouette scores and elbow curve indicate that K = 5 is the most suitable choice.
+- Distribution of annual income.
+- Minimum and maximum income.
+- Average and median income.
+- Spread of income values.
 
-## Customer Clusters
+This helps explain the income patterns represented in the dataset.
 
-| Cluster | Customer Segment |
+### 4. Spending Score Analysis
+
+The spending score is examined to understand customer spending behaviour.
+
+The analysis considers:
+
+- Distribution of spending scores.
+- Low and high spending patterns.
+- Differences in spending behaviour across the dataset.
+
+### 5. Correlation Analysis
+
+Correlation between numerical features is examined using a correlation matrix and heatmap.
+
+This helps explore relationships between age, annual income, and spending score.
+
+Correlation analysis is exploratory and does not, by itself, determine the optimal number of clusters.
+
+### 6. Income vs. Spending Score
+
+A scatter plot is created using annual income and spending score.
+
+This is an important visualization because these are the two features used for clustering.
+
+The plot helps identify visible patterns, such as:
+
+- Customers with low income and low spending scores.
+- Customers with low income and high spending scores.
+- Customers with high income and low spending scores.
+- Customers with high income and high spending scores.
+- Customers with moderate income and spending scores.
+
+These patterns provide an initial understanding of the potential customer segments.
+
+## Feature Selection
+
+The project selects two features for the K-Means model:
+
+```python
+X = df[['Annual Income (k$)', 'Spending Score (1-100)']]
+```
+
+### Why These Features?
+
+Annual income provides an indication of customers' financial capacity, while spending score represents their spending behaviour.
+
+Using both features makes it possible to segment customers according to two different business dimensions.
+
+The `CustomerID` column is excluded because it is only an identifier. Gender and age are also excluded from the clustering input so that the model focuses specifically on income and spending behaviour.
+
+## Feature Scaling
+
+K-Means Clustering uses distances between data points to assign customers to clusters.
+
+Because annual income and spending score can have different numerical ranges and distributions, feature scaling is applied before clustering.
+
+The project uses `StandardScaler`:
+
+```python
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+```
+
+StandardScaler transforms each feature to have approximately zero mean and unit variance.
+
+### Why Is Scaling Important?
+
+Without scaling, a feature with a larger numerical spread can have a greater influence on the distance calculations.
+
+Scaling helps ensure that both selected features contribute more comparably to the clustering process.
+
+The scaler must be fitted on the training or reference data and reused when transforming new customer inputs. It should not be independently fitted on each new prediction.
+
+## Determining the Optimal Number of Clusters
+
+The project uses two methods to help determine the appropriate number of clusters:
+
+1. Elbow Method using Within-Cluster Sum of Squares (WCSS).
+2. Silhouette Score.
+
+Both methods provide information about clustering quality, but they measure different properties.
+
+### 1. Elbow Method
+
+The Elbow Method evaluates K-Means models with different numbers of clusters.
+
+For each value of \(K\), the model's inertia, also known as WCSS, is recorded.
+
+Inertia measures the sum of squared distances between data points and their assigned cluster centres.
+
+Example:
+
+```python
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+wcss = []
+
+for k in range(1, 11):
+    kmeans = KMeans(
+        n_clusters=k,
+        init='k-means++',
+        random_state=42,
+        n_init=10
+    )
+
+    kmeans.fit(X_scaled)
+    wcss.append(kmeans.inertia_)
+
+plt.plot(range(1, 11), wcss, marker='o')
+plt.xlabel('Number of Clusters (K)')
+plt.ylabel('WCSS')
+plt.title('Elbow Method')
+plt.show()
+```
+
+As the number of clusters increases, inertia generally decreases because each cluster can represent a smaller group of observations.
+
+The preferred value is often near the point where the reduction in inertia begins to slow down significantly. This point is known as the elbow.
+
+### 2. Silhouette Score
+
+The Silhouette Score evaluates how well each observation fits within its assigned cluster compared with other clusters.
+
+The score ranges from -1 to 1.
+
+| Score | Interpretation |
 |---|---|
-| 0 | Moderate-Income, Moderate-Spending Customers |
-| 1 | High-Income, High-Spending Customers |
-| 2 | Low-Income, High-Spending Customers |
-| 3 | High-Income, Low-Spending Customers |
-| 4 | Low-Income, Low-Spending Customers |
+| Close to 1 | Observations are generally well matched to their assigned clusters and separated from other clusters |
+| Close to 0 | Clusters overlap or observations lie near cluster boundaries |
+| Below 0 | Some observations may be closer to another cluster than to their assigned cluster |
 
-These labels represent interpretations of the clusters based on their characteristics.
+A higher average silhouette score generally indicates better-separated clusters.
 
-## Model Export
+Example:
 
-The complete scikit-learn pipeline is exported from the notebook and saved as:
+```python
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+
+for k in range(2, 11):
+    kmeans = KMeans(
+        n_clusters=k,
+        init='k-means++',
+        random_state=42,
+        n_init=10
+    )
+
+    labels = kmeans.fit_predict(X_scaled)
+    score = silhouette_score(X_scaled, labels)
+
+    print(f'K = {k}, Silhouette Score = {score:.4f}')
+```
+
+The Silhouette Score cannot be calculated meaningfully for a clustering result with only one cluster, which is why the evaluation starts at \(K=2\).
+
+### Selecting K
+
+The project selects **K = 5** based on the recorded Elbow Method and Silhouette Score analysis.
+
+The Elbow Method helps identify diminishing returns from adding clusters, while the Silhouette Score evaluates cluster cohesion and separation.
+
+The two methods should be considered together with the business interpretability of the resulting segments rather than treating either metric as an absolute rule.
+
+## K-Means Clustering
+
+K-Means is an unsupervised machine learning algorithm that partitions observations into a specified number of clusters.
+
+The algorithm works iteratively:
+
+1. Initializes cluster centres.
+2. Assigns each customer to the nearest cluster centre.
+3. Recalculates the cluster centres based on the assigned customers.
+4. Repeats the assignment and update steps until convergence or the iteration limit is reached.
+
+The project uses five clusters.
+
+Example:
+
+```python
+from sklearn.cluster import KMeans
+
+kmeans = KMeans(
+    n_clusters=5,
+    init='k-means++',
+    random_state=42,
+    n_init=10
+)
+
+labels = kmeans.fit_predict(X_scaled)
+```
+
+The `n_clusters=5` parameter specifies the number of clusters.
+
+The `init='k-means++'` parameter uses an initialization strategy designed to spread the initial cluster centres.
+
+The `random_state=42` parameter helps make results reproducible, while `n_init=10` runs multiple initializations and selects the solution with the lowest inertia.
+
+## Customer Segments
+
+The five clusters are interpreted using their annual income and spending score characteristics.
+
+| Cluster | Segment Interpretation | Potential Business Insight |
+|---|---|---|
+| 0 | Moderate-Income, Moderate-Spending Customers | May respond to loyalty programmes and offers that encourage repeat purchases |
+| 1 | High-Income, High-Spending Customers | May be suitable for premium products, exclusive offers, and loyalty benefits |
+| 2 | Low-Income, High-Spending Customers | May respond to affordable premium options, promotions, and value-oriented products |
+| 3 | High-Income, Low-Spending Customers | May be suitable for personalized promotions and campaigns designed to encourage engagement |
+| 4 | Low-Income, Low-Spending Customers | May respond to discounts, budget-friendly products, and essential offers |
+
+**Note:** These are business-oriented interpretations of the recorded cluster labels. Cluster numbers are arbitrary identifiers assigned by K-Means, not fixed customer categories. The actual characteristics of each cluster should be confirmed by examining the fitted cluster centres in the original feature units.
+
+## Visualizing the Clusters
+
+A scatter plot can be used to visualize the resulting customer segments.
+
+The horizontal axis represents annual income, and the vertical axis represents spending score.
+
+Each customer is displayed according to the cluster assigned by the K-Means model.
+
+Cluster centres can also be plotted to show the approximate central position of each segment.
+
+This visualization helps assess whether the identified groups are reasonably separated and whether their characteristics make sense from a business perspective.
+
+## Building the Scikit-Learn Pipeline
+
+The project exports the complete customer segmentation workflow as a scikit-learn pipeline.
+
+The pipeline combines:
+
+1. StandardScaler for feature scaling.
+2. K-Means for clustering.
+
+Example:
+
+```python
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+
+pipeline = Pipeline([
+    ('scaler', StandardScaler()),
+    ('kmeans', KMeans(
+        n_clusters=5,
+        init='k-means++',
+        random_state=42,
+        n_init=10
+    ))
+])
+```
+
+The pipeline can be fitted on the selected features:
+
+```python
+pipeline.fit(X)
+```
+
+The fitted pipeline stores the scaler parameters and K-Means model.
+
+When new customer data is passed through the pipeline, the scaler transforms the input before K-Means assigns it to a cluster.
+
+For example:
+
+```python
+new_customer = [[75, 60]]
+
+cluster = pipeline.predict(new_customer)
+
+print(cluster)
+```
+
+The example represents an annual income of 75 thousand dollars and a spending score of 60. The resulting cluster depends on the fitted model and dataset.
+
+**Important:** The example assumes that the pipeline has already been fitted on the original dataset and that incoming values use the same feature order and units.
+
+## Model Serialization
+
+The complete fitted pipeline is exported so that the Flask application can use the trained model without retraining it whenever a request arrives.
+
+The exported model is saved as:
 
 ```text
 complete_customer_segmentation_pipeline.pkl
 ```
 
-The pipeline includes the preprocessing and clustering steps required to assign new customers to clusters.
+The pipeline can be serialized using Joblib:
+
+```python
+import joblib
+
+joblib.dump(
+    pipeline,
+    'complete_customer_segmentation_pipeline.pkl'
+)
+```
+
+It can later be loaded for inference:
+
+```python
+pipeline = joblib.load(
+    'complete_customer_segmentation_pipeline.pkl'
+)
+```
+
+Saving the entire pipeline preserves both preprocessing and clustering steps, reducing the risk of inconsistent transformations between training and inference.
+
+The model should be loaded only from a trusted source, and the deployment environment should use compatible library versions.
+
+## Flask Web Application
+
+The project integrates the exported pipeline into a Flask web application.
+
+The application provides a web interface through which users can enter customer information and obtain a predicted cluster assignment.
+
+### Application Workflow
+
+```text
+Customer Input
+      |
+      v
+HTML Form
+      |
+      v
+Flask Backend
+      |
+      v
+Input Validation
+      |
+      v
+Load Fitted Pipeline
+      |
+      v
+StandardScaler
+      |
+      v
+K-Means Prediction
+      |
+      v
+Cluster Assignment
+      |
+      v
+Display Result
+```
+
+### Main Application Steps
+
+1. Load the serialized pipeline when the application starts.
+2. Receive annual income and spending score from the form.
+3. Validate the input values.
+4. Create a DataFrame using the same feature names and order used during training.
+5. Pass the input through the fitted pipeline.
+6. Obtain the predicted cluster identifier.
+7. Display the assigned cluster and its corresponding segment interpretation.
+
+The model returns a cluster number rather than a supervised prediction such as a class probability. Cluster interpretation is added by mapping the cluster identifier to the segment descriptions established during analysis.
+
+## Deployment on Vercel
+
+The Flask application is configured for deployment on Vercel.
+
+The deployment process generally involves:
+
+1. Preparing the Flask application and its entry point.
+2. Including the serialized pipeline in the deployment package or configuring a suitable way to access the artifact.
+3. Creating a `requirements.txt` file with the required dependencies.
+4. Configuring Vercel to recognize and run the Python application.
+5. Deploying the project from the repository.
+6. Testing the deployed application with valid customer inputs.
+
+The deployed application should be tested to ensure that:
+
+- The Flask backend starts correctly.
+- The serialized model can be loaded.
+- Input validation works as expected.
+- Predictions are returned successfully.
+- The frontend displays the resulting cluster.
+- The application handles invalid inputs appropriately.
+
+Vercel's Python runtime and deployment configuration may impose runtime and file-size constraints, so the final configuration should match the actual project setup.
+
+## Running the Application Locally
+
+Create a virtual environment:
+
+```bash
+python -m venv venv
+```
+
+Activate it on Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+Install the dependencies listed in the project's `requirements.txt`:
+
+```bash
+pip install -r requirements.txt
+```
+
+Run the Flask application using the actual entry point in the repository. For example, if the entry point is `app.py`:
+
+```bash
+python app.py
+```
+
+Open the application at:
+
+http://127.0.0.1:5000
+
+The commands and paths should be adjusted if the Flask application uses a different directory structure or entry-point filename.
+
+## Model Artifact
+
+The exported pipeline is:
+
+```text
+complete_customer_segmentation_pipeline.pkl
+```
+
+It contains the fitted preprocessing and clustering components required to assign new customers to the learned clusters.
 
 ## Technologies Used
+
+### Programming and Data Analysis
 
 - Python
 - Pandas
 - NumPy
-- Scikit-learn
+
+### Visualization
+
 - Matplotlib
 - Seaborn
-- K-Means Clustering
+
+### Machine Learning
+
+- Scikit-learn
 - StandardScaler
+- K-Means Clustering
+- Elbow Method
+- Silhouette Score
+- Scikit-Learn Pipeline
+
+### Deployment
+
+- Joblib or Pickle
 - Flask
 - HTML
 - CSS
 - Vercel
-- Pickle or Joblib
 
 ## Key Learning Outcomes
 
-- Exploratory Data Analysis
+- Unsupervised machine learning
 - Customer segmentation
-- Unsupervised learning
-- K-Means Clustering
+- Exploratory Data Analysis
+- Feature selection
 - Feature scaling
+- K-Means Clustering
+- Cluster-centre interpretation
 - Elbow Method
+- Within-Cluster Sum of Squares (WCSS)
 - Silhouette Score
+- Clustering evaluation
 - Scikit-learn pipelines
 - Model serialization
-- Flask deployment
-- Vercel deployment
-
-## Author
-
-**Om Satyawan Pathak**
+- Loading saved models for inference
+- Flask integration
+- HTML form handling
+- Model deployment on Vercel
 
 ---
 
@@ -958,10 +1425,6 @@ MovieRecommenderSystem MLEngineering PROJECT/
 - Model serialization
 - Flask deployment
 - Docker containerization
-
-## Author
-
-**Om Satyawan Pathak**
 
 ---
 
@@ -1336,6 +1799,8 @@ Swiggy FoodDelivery Analysis Website/
 - Model serialization
 - Flask APIs
 - Machine learning deployment
+
+---
 
 ## Author
 
