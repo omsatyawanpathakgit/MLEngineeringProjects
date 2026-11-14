@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f3ed">
+  <title>Flower Poetry — Sentence Completion</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main class="card">
+    <p class="eyebrow">LSTM POETRY GENERATOR</p>
+    <h1>Let your sentence bloom.</h1>
+    <p class="intro">Write a line and let the flower poetry model imagine what comes next.</p>
+    <p class="intro">A Project by Om Satyawan Pathak</p>
+    <form id="completion-form">
+      <label for="prompt">Your sentence</label>
+      <textarea
+        id="prompt"
+        name="text"
+        rows="4"
+        maxlength="1000"
+        placeholder="The garden woke beneath the morning..."
+        required
+      ></textarea>
+
+      <div class="form-footer">
+        <div class="word-count">
+          <label for="words">Add up to</label>
+          <select id="words" name="words">
+            <option value="5">5 words</option>
+            <option value="10" selected>10 words</option>
+            <option value="15">15 words</option>
+            <option value="20">20 words</option>
+            <option value="30">30 words</option>
+            <option value="40">40 words</option>
+          </select>
+        </div>
+        <button id="submit-button" type="submit">Complete my sentence</button>
+      </div>
+    </form>
+
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+    <section id="result-section" class="result-section" aria-labelledby="result-heading" hidden>
+      <h2 id="result-heading">Your completed line</h2>
+      <p id="result" class="result"></p>
+    </section>
+  </main>
+  <script>
+    const form = document.getElementById("completion-form");
+    const button = document.getElementById("submit-button");
+    const status = document.getElementById("status");
+    const resultSection = document.getElementById("result-section");
+    const result = document.getElementById("result");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      button.disabled = true;
+      status.textContent = "Finding the next words...";
+      resultSection.hidden = true;
+
+      try {
+        const response = await fetch("/api/complete", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            text: document.getElementById("prompt").value,
+            words: Number(document.getElementById("words").value)
+          })
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.error || "Sentence completion failed.");
+        }
+        result.textContent = data.completion;
+        resultSection.hidden = false;
+        status.textContent = "";
+      } catch (error) {
+        status.textContent = error.message || "Could not connect to the server.";
+      } finally {
+        button.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
